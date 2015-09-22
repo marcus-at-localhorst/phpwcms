@@ -1,0 +1,120 @@
+<div class="wrapbox">
+	<!-- TOP AREA -->
+	<section class="toparea">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 top-text pull-left">
+				<i class="icon-phone"></i> Kostenloses Bestelltelefon: 0800 20 300 60<span class="separator"></span><i class="icon-envelope"></i> Email: <a href="mailto:kaettniss.kohle@t-online.de">kaettniss.kohle@t-online.de</a>
+			</div>
+		</div>
+	</div>
+	</section>
+	<!-- /.toparea end-->
+	<!-- NAV -->
+	<nav class="navbar navbar-fixed-top wowmenu" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<a class="navbar-brand logo-nav" href="index.html">
+			<img src="/template/inc_layout/img/logo.svg" height="50" alt="logo"></a>
+		</div>
+
+
+		{NAV_LIST_UL:B,0,2,active|nav navbar-nav pull-right|submenu,active,item}
+	
+	</div>	
+	</nav>
+	<!-- /nav end-->
+
+	[SLIDER]
+	<!-- CAROUSEL -->
+	{SLIDER}
+	<!-- /.carousel end-->
+	[/SLIDER]
+	
+<!-- 	<section class="pageheader-default text-center">
+	<div class="semitransparentbg">
+		<h1 class="animated fadeInLeftBig notransition">Page Not Found</h1>
+		<p class="animated fadeInRightBig  notransition container page-description">
+			 The page you requested could not be found,<br/> either contact your <i>webmaster</i> or try again.
+		</p>
+	</div>
+	</section> -->
+
+	{CONTENT}
+
+
+	<!-- BEGIN FOOTER -->
+	<section>
+	<div class="footer">
+		<div class="container animated fadeInUpNow notransition">
+
+		{FOOTER}
+
+
+
+
+			<div class="row">
+
+				<div class="col-md-3">
+					<h1 class="title"><span class="colortext">K</span>ontakt</h1>
+					<div class="footermap">
+
+						<p>
+							Erzgebirgischer Brennstoffhandel Aue - EBA e.K. <br>
+Bockauer Talstraße 22<br>
+08280 Aue
+						</p>
+						<p>
+							<strong>Phone: </strong> 0800 20 300 60
+						</p>
+						<p>
+							<strong>E-Mail: </strong> kaettniss.kohle@t-online.de
+						</p>
+<!-- 						<ul class="social-icons list-soc">
+							<li><a href="#"><i class="icon-facebook"></i></a></li>
+							<li><a href="#"><i class="icon-twitter"></i></a></li>
+							<li><a href="#"><i class="icon-linkedin"></i></a></li>
+							<li><a href="#"><i class="icon-google-plus"></i></a></li>
+							<li><a href="#"><i class="icon-skype"></i></a></li>
+						</ul> -->
+					</div>
+				</div>
+				<div class="col-md-3">
+				</div>
+				<div class="col-md-3">
+				</div>
+				<div class="col-md-3">
+				</div>
+			</div>
+		</div>
+	</div>
+	<p id="back-top">
+		<a href="#top"><span></span></a>
+	</p>
+	<div class="copyright">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4">
+					<p class="pull-left">
+					</p>
+				</div>
+				<div class="col-md-8">
+				{NAV_LIST_UL:BA,4,1,active|main footermenu pull-right|submenu,active,}
+				</div>
+			</div>
+		</div>
+	</div>
+	</section>
+	<!-- /footer section end-->
+</div>
+
+<script>
+	$(document).ready(function(){
+		$('.tab-container .tab-pane').wrapAll('<div class="tab-content">');
+		$('.tab-container .tab-navigation a:first').tab('show');
+		$('.tab-container .tab-navigation a').click(function (e) {
+			e.preventDefault();
+			$(this).tab('show');
+		})
+	});
+</script>

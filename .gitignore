@@ -3,3 +3,5 @@
 /content/images/*.png
 /content/images/*.gif
 /content/tmp/*
+/phpwcms.sublime-project
+/phpwcms.sublime-workspace
