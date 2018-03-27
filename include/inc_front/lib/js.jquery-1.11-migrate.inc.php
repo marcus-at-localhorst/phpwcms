@@ -3,9 +3,9 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 
@@ -14,7 +14,7 @@ require_once(PHPWCMS_ROOT.'/include/inc_front/lib/js.jquery.default.php');
 define('PHPWCMS_JSLIB', 'jquery-1.11-migrate');
 
 /**
- * Init jQuery 1.10.x + jQuery Migrate Library
+ * Init jQuery 1.11.x + jQuery Migrate Library
  */
 function initJSLib() {
 	if(empty($GLOBALS['block']['custom_htmlhead']['jquery.js'])) {
@@ -29,5 +29,3 @@ function initJSLib() {
 	}
 	return TRUE;
 }
-
-?>

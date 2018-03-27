@@ -3,16 +3,16 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 
 // ----------------------------------------------------------------
 // obligate check for phpwcms constants
 if (!defined('PHPWCMS_ROOT')) {
-   die("You Cannot Access This Script Directly, Have a Nice Day.");
+	die("You Cannot Access This Script Directly, Have a Nice Day.");
 }
 // ----------------------------------------------------------------
 
@@ -123,7 +123,7 @@ function showImage() {
 	var id	= parseInt($('#cnt_image_id').val(),10);
 	var img	= $('#cnt_image');
 	if(id > 0) {
-		img.html('<img src="<?php echo PHPWCMS_URL.'img/cmsimage.php/'.$phpwcms['img_list_width'].'x'.$phpwcms['img_list_height'] ?>/'+id+'" alt="" border="0" />');
+		img.html('<img src="<?php echo PHPWCMS_URL.PHPWCMS_RESIZE_IMAGE.'/'.$phpwcms['img_list_width'].'x'.$phpwcms['img_list_height'] ?>/'+id+'" alt="" border="0">');
 		img.show();
 	} else {
 		img.hide();
@@ -140,7 +140,6 @@ function addFile(file_id, file_name) {
 		obj.options[obj.length-1].selected	= false;
 		if(obj.options.length > 5) {
 			obj.size = obj.options.length;
-			$('#cnt_file_caption').attr('rows', obj.size+1);
 			$('#cnt_file_caption').attr('rows', obj.size+1);
 		}
 	}
@@ -186,10 +185,9 @@ $(function(){
 	$('#newsform').submit(function(event){
 
 		$("#cnt_category").val($('#as-values-keyword-autosuggest').val());
-		$('#cfile_list').find('option').attr('selected', 'selected');
+		$('#cfile_list option').prop('selected', true);
 
 	});
-
 
 	var cnt_title = $('#cnt_title');
 	var change_name_value	= '-';
@@ -206,10 +204,11 @@ $(function(){
 	});
 
 	$('#cnt_alias_click').click(function(){
-		var cnt_alias = $('#cnt_name').val().trim();
+		var cnt_name = $('#cnt_name');
+		var cnt_alias = cnt_name.val().trim();
 		if(cnt_alias === '') {
 			cnt_alias = cnt_title.val().trim();
-			$('#cnt_name').val(cnt_alias);
+			cnt_name.val(cnt_alias);
 		} else {
 			$('#cnt_alias').val( create_alias(cnt_alias) );
 		}
@@ -285,7 +284,7 @@ $(function(){
 			<tr>
 				<td>&nbsp;</td>
 				<td>
-					<textarea name="cnt_teasertext" id="cnt_teasertext" class="text" rows="5"><?php echo html($news->data['cnt_teasertext']) ?></textarea>
+					<textarea name="cnt_teasertext" id="cnt_teasertext" class="text autosize" rows="5"><?php echo html($news->data['cnt_teasertext']) ?></textarea>
 				</td>
 		</table>
 	</div>
@@ -362,9 +361,13 @@ $(function(){
 
 
 	<p class="space_top">
-		<label><a id="cnt_name_click"><?php echo $BL['be_title'] ?></a>/<a id="cnt_alias_click"><?php echo $BL['be_alias'] ?></a></label>
-		<input type="text" name="cnt_name" id="cnt_name" value="<?php echo html($news->data['cnt_name']) ?>" class="text short" maxlength="200" placeholder="<?php echo $BL['be_title'] ?>" />
-		<input type="text" name="cnt_alias" id="cnt_alias" value="<?php echo html($news->data['cnt_alias']) ?>" class="text short" maxlength="230" placeholder="<?php echo $BL['be_alias'] ?>" />
+		<label><a id="cnt_name_click" style="cursor:pointer;text-decoration:underline;"><?php echo $BL['be_title'] ?></a></label>
+		<input type="text" name="cnt_name" id="cnt_name" value="<?php echo html($news->data['cnt_name']) ?>" class="text" maxlength="200" placeholder="<?php echo $BL['be_title'] ?>" />
+	</p>
+
+	<p>
+		<label><a id="cnt_alias_click" style="cursor:pointer;text-decoration:underline;"><?php echo $BL['be_alias'] ?></a></label>
+		<input type="text" name="cnt_alias" id="cnt_alias" value="<?php echo html($news->data['cnt_alias']) ?>" class="text" maxlength="230" placeholder="<?php echo $BL['be_alias'] ?>" />
 	</p>
 
 	<div class="cf">
@@ -437,7 +440,7 @@ $(function(){
 			'lang'		=> 'en'
 		);
 
-		include(PHPWCMS_ROOT.'/include/inc_lib/wysiwyg.editor.inc.php');
+		include PHPWCMS_ROOT.'/include/inc_lib/wysiwyg.editor.inc.php';
 
 	?></div>
 
@@ -477,7 +480,7 @@ $(function(){
 		<tr>
 				<td class="top"><label><?php echo $BL['be_cnt_caption'] ?></label></td>
 				<td colspan="2" class="tdbottom4">
-					<textarea name="cnt_image_caption" id="cnt_image_caption" class="text" rows="2"><?php echo html($news->data['cnt_image']['caption']) ?></textarea>
+					<textarea name="cnt_image_caption" id="cnt_image_caption" class="text autosize" rows="2"><?php echo html($news->data['cnt_image']['caption']) ?></textarea>
 					<span class="caption width350">
 						<?php echo $BL['be_cnt_caption']; ?>
 						|
@@ -528,7 +531,7 @@ $(function(){
 		<tr>
 	 		<td class="top"><label><?php echo $BL['be_cnt_description'] ?></label></td>
 	  		<td colspan="2">
-	  			<textarea name="cnt_file_caption" cols="40" rows="<?php echo $news->fileRows ?>" class="text" id="cnt_file_caption"><?php echo html($news->data['cnt_files']['caption']) ?></textarea>
+	  			<textarea name="cnt_file_caption" cols="40" rows="<?php echo $news->fileRows ?>" class="text autosize" id="cnt_file_caption"><?php echo html($news->data['cnt_files']['caption']) ?></textarea>
 	  			<span class="caption width350 nowrap">
 					<?php echo $BL['be_caption_descr.']; ?>
 					|
@@ -578,8 +581,8 @@ $(function(){
 
 	<p class="space_top border_top">
 		<label><?php echo $BL['be_article_username'] ?>/<?php echo $BL['be_place'] ?></label>
-		<input type="text" name="cnt_editor" id="cnt_editor" value="<?php echo html($news->data['cnt_editor']) ?>" class="text short" maxlength="250" title="<?php echo $BL['be_article_username'] ?>" />
-		<input type="text" name="cnt_place" id="cnt_place" value="<?php echo html($news->data['cnt_place']) ?>" class="text short" maxlength="250" title="<?php echo $BL['be_place'] ?>" />
+		<input type="text" name="cnt_editor" id="cnt_editor" value="<?php echo html($news->data['cnt_editor']) ?>" class="width200" maxlength="250" title="<?php echo $BL['be_article_username'] ?>" />
+		<input type="text" name="cnt_place" id="cnt_place" value="<?php echo html($news->data['cnt_place']) ?>" class="width140" maxlength="250" title="<?php echo $BL['be_place'] ?>" />
 	</p>
 
 	<div class="filled border_top paragraph border_bottom">
@@ -661,5 +664,3 @@ $(function(){
 
 	}
 	// Stop news form
-
-?>

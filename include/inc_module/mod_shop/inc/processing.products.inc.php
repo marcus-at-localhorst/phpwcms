@@ -2,20 +2,19 @@
 /**
  * phpwcms content management system
  *
- * @author Oliver Georgi <oliver@phpwcms.de>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @author Oliver Georgi <oliver@phpwcms.org>
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 
 // ----------------------------------------------------------------
 // obligate check for phpwcms constants
 if (!defined('PHPWCMS_ROOT')) {
-   die("You Cannot Access This Script Directly, Have a Nice Day.");
+	die("You Cannot Access This Script Directly, Have a Nice Day.");
 }
 // ----------------------------------------------------------------
-
 
 if($action == 'edit') {
 
@@ -26,7 +25,7 @@ if($action == 'edit') {
 
 		// check if form should be closed only -> and back to listing mode
 		if( isset($_POST['close']) ) {
-			headerRedirect( shop_url('controller=prod', '') );
+			headerRedirect( shop_url(get_token_get_string('csrftoken').'&controller=prod', '') );
 		}
 
 		$plugin['data']['shopprod_changedate']		= time();
@@ -40,6 +39,7 @@ if($action == 'edit') {
 		$plugin['data']['shopprod_price']			= clean_slweg($_POST['shopprod_price']);
 		$plugin['data']['shopprod_vat']				= abs(floatval($_POST['shopprod_vat']));
 		$plugin['data']['shopprod_weight']			= clean_slweg($_POST['shopprod_weight']);
+		$plugin['data']['shopprod_unit']			= clean_slweg($_POST['shopprod_unit']);
 
 		$plugin['data']['shopprod_size']			= clean_slweg($_POST['shopprod_size']);
 		$plugin['data']['shopprod_color']			= clean_slweg($_POST['shopprod_color']);
@@ -242,7 +242,8 @@ if($action == 'edit') {
 				$sql .= "shopprod_listall = '".aporeplace($plugin['data']['shopprod_listall'])."', ";
 				$sql .= "shopprod_lang = '".aporeplace($plugin['data']['shopprod_lang'])."', ";
 				$sql .= "shopprod_overwrite_meta = ".$plugin['data']['shopprod_overwrite_meta'].", ";
-				$sql .= "shopprod_opengraph = ".$plugin['data']['shopprod_opengraph']." ";
+				$sql .= "shopprod_opengraph = ".$plugin['data']['shopprod_opengraph'].", ";
+				$sql .= "shopprod_unit = "._dbEscape($plugin['data']['shopprod_unit'])." ";
 
 				$sql .= "WHERE shopprod_id = " . $plugin['data']['shopprod_id'];
 
@@ -256,7 +257,7 @@ if($action == 'edit') {
 				$sql .= 'shopprod_name1, shopprod_name2, shopprod_tag, shopprod_vat, shopprod_netgross, shopprod_price, ';
 				$sql .= 'shopprod_maxrebate, shopprod_description0, shopprod_description1, shopprod_description2, ';
 				$sql .= 'shopprod_description3, shopprod_var, shopprod_category, shopprod_weight, shopprod_size, shopprod_color, ';
-				$sql .= 'shopprod_listall, shopprod_lang, shopprod_overwrite_meta, shopprod_opengraph) VALUES (';
+				$sql .= 'shopprod_listall, shopprod_lang, shopprod_overwrite_meta, shopprod_opengraph, shopprod_unit) VALUES (';
 				$sql .= "'".aporeplace( date('Y-m-d H:i:s', $plugin['data']['shopprod_changedate']) )."', ";
 				$sql .= "'".aporeplace( date('Y-m-d H:i:s', $plugin['data']['shopprod_changedate']) )."', ";
 				$sql .= $plugin['data']['shopprod_status'].", ";
@@ -288,7 +289,8 @@ if($action == 'edit') {
 				$sql .= "'".aporeplace($plugin['data']['shopprod_listall'])."', ";
 				$sql .= "'".aporeplace($plugin['data']['shopprod_lang'])."', ";
 				$sql .= $plugin['data']['shopprod_overwrite_meta'].', ';
-				$sql .= $plugin['data']['shopprod_opengraph'];
+				$sql .= $plugin['data']['shopprod_opengraph'].', ';
+				$sql .= _dbEscape($plugin['data']['shopprod_unit']);
 				$sql .= ')';
 
 				$result = _dbQuery($sql, 'INSERT');
@@ -301,9 +303,9 @@ if($action == 'edit') {
 
 			// save and back to listing mode
 			if( isset($_POST['save']) ) {
-				headerRedirect( shop_url('controller=prod', '') );
+				headerRedirect( shop_url(get_token_get_string('csrftoken').'&controller=prod', '') );
 			} else {
-				headerRedirect( shop_url( array('controller=prod', 'edit='.$plugin['data']['shopprod_id']), '') );
+				headerRedirect( shop_url(get_token_get_string('csrftoken').'&controller=prod&edit='.$plugin['data']['shopprod_id'], '') );
 			}
 
 		}
@@ -340,6 +342,7 @@ if($action == 'edit') {
 		$plugin['data']['shopprod_lang']			= '';
 		$plugin['data']['shopprod_overwrite_meta']	= 1;
 		$plugin['data']['shopprod_opengraph']		= empty($phpwcms['set_sociallink']['shop']) ? 0 : 1;
+		$plugin['data']['shopprod_unit']			= '';
 
 	} else {
 
@@ -368,9 +371,12 @@ if($action == 'edit') {
 			$plugin['data']['shopprod_caption']		= array();
 			$plugin['data']['shopprod_filecaption']	= array();
 			$plugin['data']['shopprod_url']			= isset($plugin['data']['shopprod_var']['url']) ? $plugin['data']['shopprod_var']['url'] : '';
+			$plugin['data']['shopprod_unit']		= isset($plugin['data']['shopprod_unit']) ? $plugin['data']['shopprod_unit'] : '';
+			$plugin['data']['shopprod_opengraph']	= empty($plugin['data']['shopprod_opengraph']) ? 0 : 1;
+			$plugin['data']['shopprod_overwrite_meta']	= empty($plugin['data']['shopprod_overwrite_meta']) ? 0 : 1;
 
 		} else {
-			headerRedirect( shop_url('controller=prod', '') );
+			headerRedirect( shop_url(get_token_get_string('csrftoken').'&controller=prod', '') );
 		}
 
 	}
@@ -397,7 +403,7 @@ if($action == 'edit') {
 
 	_dbQuery($sql, 'UPDATE');
 
-	headerRedirect( shop_url('controller=prod', '') );
+	headerRedirect( shop_url(get_token_get_string('csrftoken').'&controller=prod', '') );
 
 } elseif($action == 'delete') {
 
@@ -409,9 +415,6 @@ if($action == 'edit') {
 
 	_dbQuery($sql, 'UPDATE');
 
-	headerRedirect( shop_url('controller=prod', '') );
+	headerRedirect( shop_url(get_token_get_string('csrftoken').'&controller=prod', '') );
 
 }
-
-
-?>

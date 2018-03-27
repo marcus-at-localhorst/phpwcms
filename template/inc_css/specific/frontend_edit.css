@@ -8,7 +8,6 @@ a.fe-link {
 	text-decoration: none;
 	background-position: left center;
 	background-repeat: no-repeat;
-	background-color: transparent;
 	cursor: pointer;
 	z-index: 10000;
 	position: relative;
@@ -39,24 +38,34 @@ a.fe-link.fe-structure {
 	background-image: url(../../../img/famfamfam/folder_edit.png);
 }
 #fe-link {
-	position: absolute;
-	right: 3px;
-	top: 3px;
-	color: #FFFFFF;
-	border: 1px solid #003300;
-	padding: 3px;
+	position: fixed;
+	right: 5px;
+	top: 5px;
+	color: #FFF;
+	border: 1px solid #999;
+    padding: 0;
 	background-position: center center;
 	background-repeat: no-repeat;
-	height: 16px;
-	width: 16px;
+	height: 22px;
+	width: 22px;
 	cursor: pointer;
 	z-index: 10000;
+	border-radius: 3px;
+	box-shadow: 1px 1px 3px rgba(23, 23, 23, 0.25);
+	box-sizing: border-box;
 }
 #fe-link.enabled {
+    background-color: #E1FFC4;
 	background-image: url(../../../img/famfamfam/pencil_delete.png);
-	background-color: #E1FFC4;
 }
 #fe-link.disabled {
+    background-color: #FFDDDD;
 	background-image: url(../../../img/famfamfam/pencil_add.png);
-	background-color: #FFDDDD;
+}
+#fe-link.disabled:hover {
+    background-color: #95d757;
+}
+#fe-link.enabled:hover {
+    background-color: #e94f4f;
+	background-image: url(../../../img/famfamfam/pencil_delete.png);
 }

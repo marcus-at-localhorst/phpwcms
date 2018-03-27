@@ -4,16 +4,16 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 
 // ----------------------------------------------------------------
 // obligate check for phpwcms constants
 if (!defined('PHPWCMS_ROOT')) {
-   die("You Cannot Access This Script Directly, Have a Nice Day.");
+	die("You Cannot Access This Script Directly, Have a Nice Day.");
 }
 // ----------------------------------------------------------------
 
@@ -119,7 +119,3 @@ if(strtotime($plugin['data']['adcampaign_dateend']) < $plugin['data']['start_tim
 
 $plugin['data']['adcampaign_date_start']	= implode($BLM['date_delimiter'], $plugin['data']['adcampaign_date_start']);
 $plugin['data']['adcampaign_date_end']		= implode($BLM['date_delimiter'], $plugin['data']['adcampaign_date_end']);
-
-
-
-?>

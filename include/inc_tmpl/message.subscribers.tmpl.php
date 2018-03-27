@@ -3,19 +3,18 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 
 // ----------------------------------------------------------------
 // obligate check for phpwcms constants
 if (!defined('PHPWCMS_ROOT')) {
-   die("You Cannot Access This Script Directly, Have a Nice Day.");
+	die("You Cannot Access This Script Directly, Have a Nice Day.");
 }
 // ----------------------------------------------------------------
-
 
 $_userInfo = array();
 
@@ -44,7 +43,7 @@ if(isset($_GET['duplicate']) && $_GET['duplicate'] == 'remove') {
 			}
 		}
 	}
-	headerRedirect(PHPWCMS_URL.'phpwcms.php?do=messages&p=4');
+	headerRedirect(PHPWCMS_URL.'phpwcms.php?'.get_token_get_string('csrftoken').'&do=messages&p=4');
 }
 
 
@@ -60,10 +59,6 @@ if(isset($_GET["verify"]) && isset($_GET["s"])) {
 	_dbQuery($sql, 'UPDATE');
 }
 
-
-
-
-
 echo '<div class="title" style="margin-bottom:10px">'.$BL['be_subnav_msg_subscribers'].'</div>';
 ?>
 
@@ -74,7 +69,7 @@ echo '<div class="title" style="margin-bottom:10px">'.$BL['be_subnav_msg_subscri
 	&nbsp;
 	<a href="phpwcms.php?do=messages&amp;p=4&amp;import=1"><img src="img/famfamfam/table_add.gif" alt="Import" border="0" /><span><?php echo $BL['be_newsletter_newimport'] ?></span></a>
 	&nbsp;
-	<a href="include/inc_act/act_export.php?action=exportsubscriber" target="_blank" onclick="return confirm('Export all subscribers based on current selection?');"><img src="img/famfamfam/icon_download.gif" alt="Download" border="0" /><span><?php echo $BL['be_cnt_export_selection'] ?></span></a>
+	<a href="include/inc_act/act_export.php?<?php echo CSRF_GET_TOKEN; ?>&amp;action=exportsubscriber" target="_blank" onclick="return confirm('Export all subscribers based on current selection?');"><img src="img/famfamfam/icon_download.gif" alt="Download" border="0" /><span><?php echo $BL['be_cnt_export_selection'] ?></span></a>
 </div>
 
 
@@ -102,11 +97,11 @@ if(isset($_GET["s"]) && isset($_GET["edit"])) {
 	}
 
 	if(isset($_POST['subscribe_email'])) {
-		include_once(PHPWCMS_ROOT.'/include/inc_lib/subscriber.form.inc.php');
+		include_once PHPWCMS_ROOT.'/include/inc_lib/subscriber.form.inc.php';
 	}
 
 	if($_userInfo['subscriber_data']) {
-		include_once(PHPWCMS_ROOT.'/include/inc_tmpl/subscriber.form.tmpl.php');
+		include_once PHPWCMS_ROOT.'/include/inc_tmpl/subscriber.form.tmpl.php';
 	}
 }
 
@@ -121,17 +116,17 @@ if(isset($_GET['import']) && $_GET['import'] === '1') {
 
 	if(isset($_POST['delimeter'])) {
 
-		include_once(PHPWCMS_ROOT.'/include/inc_lib/subscriberimport.form.inc.php');
+		include_once PHPWCMS_ROOT.'/include/inc_lib/subscriberimport.form.inc.php';
 
 		if(isset($_userInfo['csvError'])) {
-			include_once(PHPWCMS_ROOT.'/include/inc_tmpl/subscriberimport.form.tmpl.php');
+			include_once PHPWCMS_ROOT.'/include/inc_tmpl/subscriberimport.form.tmpl.php';
 		} else {
-			include_once(PHPWCMS_ROOT.'/include/inc_tmpl/subscriberimport.result.tmpl.php');
+			include_once PHPWCMS_ROOT.'/include/inc_tmpl/subscriberimport.result.tmpl.php';
 		}
 
 	} else {
 
-		include_once(PHPWCMS_ROOT.'/include/inc_tmpl/subscriberimport.form.tmpl.php');
+		include_once PHPWCMS_ROOT.'/include/inc_tmpl/subscriberimport.form.tmpl.php';
 
 	}
 

@@ -3,9 +3,9 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 
@@ -45,5 +45,3 @@ $BL['KEYWORDS']          = 'kljucne rijeci';
 $BL['DOWNLOAD_ERR3']     = 'greska prilikom dobavljanja informacija datoteke<br />zatvorite ovaj prozor i pokusajte ponovo...';
 $BL['ADD_ALL_FILES']     = 'Dodaj sve datoteke';
 $BL['ADD_ALL_CONFIRM']   = 'Sve datoteke iz direktorija »{VAL}« su uzete!\n\nKliknite na [OK] da zatvorite ovaj prozor';
-
-?>

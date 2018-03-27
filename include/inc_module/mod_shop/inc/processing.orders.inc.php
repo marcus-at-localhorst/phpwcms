@@ -2,17 +2,17 @@
 /**
  * phpwcms content management system
  *
- * @author Oliver Georgi <oliver@phpwcms.de>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @author Oliver Georgi <oliver@phpwcms.org>
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 
 // ----------------------------------------------------------------
 // obligate check for phpwcms constants
 if (!defined('PHPWCMS_ROOT')) {
-   die("You Cannot Access This Script Directly, Have a Nice Day.");
+	die("You Cannot Access This Script Directly, Have a Nice Day.");
 }
 // ----------------------------------------------------------------
 
@@ -27,7 +27,7 @@ if($action == 'delete') {
 
 	_dbQuery($sql, 'UPDATE');
 
-	headerRedirect( shop_url('controller=order', '') );
+	headerRedirect( shop_url(get_token_get_string('csrftoken').'&controller=order', '') );
 
 } elseif($action == 'show') {
 
@@ -72,12 +72,10 @@ if($action == 'delete') {
 
 	} else {
 
-		headerRedirect( shop_url('controller=order', '') );
+		headerRedirect( shop_url(get_token_get_string('csrftoken').'&controller=order', '') );
 
 	}
 
 	$BLM['shopprod_payby_INVOICE'] = $BLM['shopprod_payby_onbill'];
 
 }
-
-?>

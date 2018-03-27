@@ -3,9 +3,9 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 
@@ -46,4 +46,3 @@ $BL['DOWNLOAD_ERR3']     = 'Fehler beim Lesen der Dateiinfo<br />Fenster schlie&
 $BL['ADD_ALL_FILES']     = 'Alle Dateien hinzuf&uuml;gen';
 $BL['ADD_ALL_CONFIRM']   = 'Alle Dateien aus dem Verzeichnis »{VAL}« wurden übernommen!\n\nMit [OK] wird der Dateibrowser geschlossen…';
 
-?>

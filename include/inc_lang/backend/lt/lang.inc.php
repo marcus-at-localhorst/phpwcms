@@ -3,9 +3,9 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 
@@ -643,15 +643,14 @@ $BL['be_article_adminuser']             = 'vartotojas administratorius';
 $BL['be_article_username']              = 'autorius';
 
 // added: 10-01-2004
-$BL['be_ctype_wysywig']                 = 'WYSIWYG HTML';
+$BL['be_ctype_wysiwyg']                 = 'WYSIWYG HTML';
 
 // added, changed: 11-01-2004
 $BL['be_admin_struct_regonly']          = 'visible for users logged on only';
 $BL['be_admin_struct_status']           = 'frontend menu status';
 
 // added: 15-02-2004
-$BL['be_ctype_articlemenu']				= 'article menu';
-$BL['be_cnt_sitelevel']					= 'site level';
-$BL['be_cnt_sitecurrent']				= 'current site level';
+$BL['be_ctype_articlemenu']             = 'article menu';
+$BL['be_cnt_sitelevel']                 = 'site level';
+$BL['be_cnt_sitecurrent']               = 'current site level';
 
-?>

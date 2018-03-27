@@ -3,16 +3,16 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 
 // ----------------------------------------------------------------
 // obligate check for phpwcms constants
 if (!defined('PHPWCMS_ROOT')) {
-   die("You Cannot Access This Script Directly, Have a Nice Day.");
+	die("You Cannot Access This Script Directly, Have a Nice Day.");
 }
 // ----------------------------------------------------------------
 
@@ -38,9 +38,11 @@ $sql =	"UPDATE ".DB_PREPEND."phpwcms_userdetail SET ".
 		"detail_public=".(empty($_POST["form_public"]) ? 0 : 1).",".
 		"detail_newsletter=".(empty($_POST["form_newsletter"]) ? 0 : 1)." WHERE ".
 		"detail_pid=".$_SESSION["wcs_user_id"];
-if(mysql_query($sql)) {
-	$detail_updated = $BL['be_profile_update_success'];	
+
+$result = _dbQuery($sql, 'UPDATE');
+
+if(!isset($result['AFFECED_ROWS'])) {
+	$detail_updated = $BL['be_profile_update_success'];
 } else {
 	$detail_updated = $BL['be_profile_update_error'];
 }
-?>

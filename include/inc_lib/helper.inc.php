@@ -3,18 +3,11 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
-
-// ----------------------------------------------------------------
-// obligate check for phpwcms constants
-if (!defined('PHPWCMS_INCLUDE_CHECK')) {
-   die("You Cannot Access This Script Directly, Have a Nice Day.");
-}
-// ----------------------------------------------------------------
 
 /**
  * Render @@Text@@ based on browser language and store in related language file
@@ -39,10 +32,15 @@ function i18n_get_language($complex=false) {
 	if($complex) {
 		$lang = explode(';', trim($_SERVER['HTTP_ACCEPT_LANGUAGE']), 2);
 		$lang = explode(',', $lang[0], 2);
-		$phpwcms['i18_lang'] = preg_replace('/[^a-z0-9\-_\.]/', '', strtolower(trim($lang[0])));
+		$phpwcms['i18_lang'] = trim($lang[0]);
 	} else {
-		$phpwcms['i18_lang'] = strtolower(substr( trim($_SERVER['HTTP_ACCEPT_LANGUAGE']) , 0, 2));
+		$phpwcms['i18_lang'] = substr(trim($_SERVER['HTTP_ACCEPT_LANGUAGE']), 0, 2);
 	}
+	if($phpwcms['i18_lang'] === '*') { // Any language
+    	$phpwcms['i18_lang'] = $phpwcms['default_lang'];
+    	return $phpwcms['i18_lang'];
+	}
+	$phpwcms['i18_lang'] = preg_replace('/[^a-z\-_]/', '', strtolower($phpwcms['i18_lang']));
 	if(empty($phpwcms['i18_lang'])) {
 		$phpwcms['i18_lang'] = $phpwcms['default_lang'];
 	}
@@ -60,14 +58,14 @@ function i18n_get_file_open_text() {
 }
 // substitutes a single token
 function i18n_substitute_text_token($token) {
-	global $i18n_tokens;	
+	global $i18n_tokens;
 	$a = trim($token[1]);
 	if(isset($i18n_tokens[$a])) {
 		return $i18n_tokens[$a];
-	} else {		
+	} else {
 		$f = i18n_get_filename();
 		if(is_readable($f)) {
-			include($f);
+			include $f;
 		} elseif($handle = fopen($f, 'ab')) {
 			fwrite($handle, i18n_get_file_open_text() );
 			fclose($handle);
@@ -89,19 +87,15 @@ function i18n_substitute_text_token($token) {
 }
 // all contents starting and ending with @@ are replaced
 function i18n_substitute_text($tpl_output) {
-	global $i18n_tokens;	    
+	global $i18n_tokens;
 	$f = i18n_get_filename();
 	if(!isset($i18n_tokens)) {
 		if(is_readable($f)) {
-			include($f);
+			include $f;
 		} elseif($handle = fopen($f, 'ab')) {
 			fwrite($handle, i18n_get_file_open_text() );
 			fclose($handle);
 		}
 	}
-	return preg_replace_callback('/@@(.+?)@@/', 'i18n_substitute_text_token', $tpl_output);    
+	return preg_replace_callback('/@@(.+?)@@/', 'i18n_substitute_text_token', $tpl_output);
 }
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-
-?>

@@ -3,16 +3,16 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 
 // ----------------------------------------------------------------
 // obligate check for phpwcms constants
 if (!defined('PHPWCMS_ROOT')) {
-   die("You Cannot Access This Script Directly, Have a Nice Day.");
+	die("You Cannot Access This Script Directly, Have a Nice Day.");
 }
 // ----------------------------------------------------------------
 
@@ -49,8 +49,10 @@ $content['linklist_entry']	= get_tmpl_section('LINKLIST_ENTRY', $crow["acontent_
 $content['linklist_space']	= get_tmpl_section('LINKLIST_SPACE', $crow["acontent_template"]);
 
 $content['linklist'] = str_replace('{ID}', $crow['acontent_id'], $content['linklist']);
-$content['linklist'] = render_cnt_template($content['linklist'], 'TITLE', html_specialchars($crow['acontent_title']));
-$content['linklist'] = render_cnt_template($content['linklist'], 'SUBTITLE', html_specialchars($crow['acontent_subtitle']));
+$content['linklist'] = render_cnt_template($content['linklist'], 'ATTR_CLASS', html($crow['acontent_attr_class']));
+$content['linklist'] = render_cnt_template($content['linklist'], 'ATTR_ID', html($crow['acontent_attr_id']));
+$content['linklist'] = render_cnt_template($content['linklist'], 'TITLE', html($crow['acontent_title']));
+$content['linklist'] = render_cnt_template($content['linklist'], 'SUBTITLE', html($crow['acontent_subtitle']));
 
 $link  = explode(LF, $crow["acontent_text"]);
 
@@ -88,5 +90,3 @@ if(count($link)) {
 }
 
 $CNT_TMP .= $content['linklist'];
-
-?>

@@ -3,9 +3,9 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 
@@ -37,8 +37,6 @@ $do = 0;
 if($img_info) {
 
 	$img_file = PHPWCMS_TEMPLATE.'inc_cntpart/map/map_img/'.$img_file;
-	
-	
 	
 	switch($img_info[2]) {
 	
@@ -127,5 +125,3 @@ function hex2rgb($hex) {
 			   );
   return $rgb;
 }
-
-?>

@@ -3,9 +3,9 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 
@@ -14,16 +14,14 @@
 // ----------------------------------------------------------------
 // obligate check for phpwcms constants
 if (!defined('PHPWCMS_ROOT')) {
-   die("You Cannot Access This Script Directly, Have a Nice Day.");
+	die("You Cannot Access This Script Directly, Have a Nice Day.");
 }
 // ----------------------------------------------------------------
 
 
-?><table width="538" border="0" cellpadding="0" cellspacing="0" summary="">
+?><table width="100%" border="0" cellpadding="0" cellspacing="0" summary="">
 <tr><td colspan="2" class="title"><?php echo $BL['be_admin_struct_title'] ?></td></tr>
-<tr><td colspan="2"><img src="img/leer.gif" alt="" width="1" height="6"></td></tr>
-<tr><td colspan="2"><img src="img/lines/l538_70.gif" alt="" width="538" height="1"></td></tr>
-<tr><td colspan="2"><img src="img/leer.gif" alt="" width="1" height="4"></td></tr>
+<tr><td colspan="2" class="rowspacer7x7"><img src="img/leer.gif" alt="" width="1" height="1" /></td></tr>
 <tr><td colspan="2"><img src="img/leer.gif" alt="" width="1" height="1"></td></tr>
 <?php
 
@@ -45,12 +43,12 @@ if(isset($_GET["open"])) {
 	}
 }
 
-$child_count		= get_root_childcount(0, $db);
+$child_count		= get_root_childcount(0);
 $child_sort			= ( $child_count + 1 ) * 10;
 $struct_template	= _dbQuery('SELECT template_default, template_name FROM '.DB_PREPEND.'phpwcms_template WHERE template_trash=0 AND template_id='.intval($indexpage['acat_template']));
 
 echo "<tr onmouseover=\"this.bgColor='#CCFF00';\" onmouseout=\"this.bgColor='#FFFFFF';\">";
-echo "<td width=\"439\">";
+echo "<td width=\"450\">";
 echo "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" summary=\"\"><tr>";
 echo '<td nowrap="nowrap">';
 echo ($child_count) ? "<a href=\"phpwcms.php?do=admin&amp;p=6&amp;open=0:".(empty($_SESSION["structure"][0])?1:0)."\">" : "";
@@ -65,6 +63,7 @@ if(isset($struct_template[0]['template_name'])) {
 		echo ' (', $BL['be_admin_tmpl_default'], ')';
 	}
 }
+echo '<br>'.$BL['be_onepage_id'].': '.(empty($indexpage["acat_onepage"]) ? $BL['be_no'] : $BL['be_yes']);
 echo '\');" onmouseout="UnTip()">';
 echo "</td><td><img src=\"img/leer.gif\" width=\"2\" height=\"15\" alt=\"\" /></td>";
 echo '<td class="dir" width="97%"><strong>'.$indexpage['acat_name']."</strong></td></tr></table></td>";
@@ -77,11 +76,9 @@ $struct[0]["acat_struct"] = 0;
 echo listmode_edits($listmode, $struct, 0, $indexpage['acat_name'], $copy_article_content, $cut_article_content, $copy_article, $copy_id, $cut_article, $cut_id, 0, 0, 0, $child_sort);
 echo "</td></tr>";
 if(!empty($_SESSION["structure"][0])) {
-	struct_list(0, $db, $copy_article_content, $cut_article_content,$copy_id, $copy_article, $cut_id, $cut_article, $listmode);
+	struct_list(0, $copy_article_content, $cut_article_content,$copy_id, $copy_article, $cut_id, $cut_article, $listmode);
 }
 
 ?>
-<tr><td colspan="2"><img src="img/leer.gif" alt="" width="1" height="5"></td></tr>
-<tr><td colspan="2"><img src="img/lines/l538_70.gif" alt="" width="538" height="1"></td></tr>
-<tr><td colspan="2"><img src="img/leer.gif" alt="" width="1" height="4"></td></tr>
+<tr><td colspan="2" class="rowspacer7x7"><img src="img/leer.gif" alt="" width="1" height="1" /></td></tr>
 </table>

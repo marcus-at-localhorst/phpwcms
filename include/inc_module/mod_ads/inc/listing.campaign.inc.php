@@ -3,16 +3,16 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 
 // ----------------------------------------------------------------
 // obligate check for phpwcms constants
 if (!defined('PHPWCMS_ROOT')) {
-   die("You Cannot Access This Script Directly, Have a Nice Day.");
+	die("You Cannot Access This Script Directly, Have a Nice Day.");
 }
 // ----------------------------------------------------------------
 
@@ -201,11 +201,11 @@ if($data) {
 		echo '	<td width="25" style="padding:2px 3px 2px 4px;"><img src="img/famfamfam/transmit.gif" alt="'.$BLM['campaign_entry'].'" /></td>'.LF;
 		echo '	<td width="50%">'.html($row["adcampaign_title"])."</td>\n";
 
-		echo '	<td class="listFormat">'.html(date($BLM['list_date_format'], $row["adcampaign_start"]).'&#8211;'.date($BLM['list_date_format'], $row["adcampaign_end"]))."</td>\n";
+		echo '	<td class="listFormat nowrap">&nbsp;'.html(date($BLM['list_date_format'], $row["adcampaign_start"]).'&#8211;'.date($BLM['list_date_format'], $row["adcampaign_end"]))."&nbsp;</td>\n";
 
-		echo '	<td class="listFormat" nowrap="nowrap">'.$row["adplace_width"].'x'.$row["adplace_height"].' {ADS_'.$row["adplace_id"]."}&nbsp;</td>\n";
+		echo '	<td class="listFormat nowrap">'.$row["adplace_width"].'x'.$row["adplace_height"].' {ADS_'.$row["adplace_id"]."}&nbsp;</td>\n";
 
-		echo '	<td align="right" nowrap="nowrap" class="button_td">';
+		echo '	<td align="right" class="button_td nowrap">';
 
 		echo '<a href="'.MODULE_HREF.'&amp;campaign=1&amp;edit='.$row["adcampaign_id"].'">';
 		echo '<img src="img/button/edit_22x13.gif" border="0" alt="" /></a>';

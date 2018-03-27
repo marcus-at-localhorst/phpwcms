@@ -3,9 +3,9 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 
@@ -13,7 +13,7 @@
 // ----------------------------------------------------------------
 // obligate check for phpwcms constants
 if (!defined('PHPWCMS_ROOT')) {
-   die("You Cannot Access This Script Directly, Have a Nice Day.");
+	die("You Cannot Access This Script Directly, Have a Nice Day.");
 }
 // ----------------------------------------------------------------
 
@@ -41,7 +41,7 @@ if (!defined('PHPWCMS_ROOT')) {
 	<tr><td colspan="2"><img src="img/leer.gif" alt="" width="1" height="2"></td></tr>
 	<tr>
 		<td align="right"><?php echo $BL['be_profile_label_newpass'] ?>:&nbsp;</td>
-		<td><input name="form_password" type="password" id="form_password" class="v12b width250" size="30" maxlength="50" autocomplete="off" value="" /></td>
+		<td><input name="form_password" type="password" id="form_password" class="v12b width250" size="30" maxlength="50" autocomplete="new-password" value="" /></td>
 	</tr>
 	<tr><td colspan="2"><img src="img/leer.gif" alt="" width="1" height="2"></td></tr>
 	<tr>

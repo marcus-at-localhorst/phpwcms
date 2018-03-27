@@ -2,10 +2,10 @@
 /**
  * phpwcms content management system
  *
- * @author Oliver Georgi <oliver@phpwcms.de>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @author Oliver Georgi <oliver@phpwcms.org>
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 
@@ -17,7 +17,7 @@
 // ----------------------------------------------------------------
 // obligate check for phpwcms constants
 if (!defined('PHPWCMS_ROOT')) {
-   die("You Cannot Access This Script Directly, Have a Nice Day.");
+	die("You Cannot Access This Script Directly, Have a Nice Day.");
 }
 // ----------------------------------------------------------------
 
@@ -61,7 +61,7 @@ foreach($cart_data as $item_key => $row) {
 			$opt2_numbr = '';
 			$value_opt2_float = 0;
 			if($row['shopprod_color'] && ($_cart_opt_2 = explode(LF, $row['shopprod_color']))) {
-				foreach ($_cart_opt_2['data'] as $key => $value){
+				foreach ($_cart_opt_2 as $key => $value){
 					if($key && $_SESSION[CART_KEY]['options2'][$prod_id][$opt1_id][$opt2_id] == $key){
 						$value = get_shop_option_value($value);
 						$value_opt2_float = $value[1];
@@ -133,6 +133,7 @@ foreach($cart_data as $item_key => $row) {
 			$cart_items[$x] = render_cnt_template($cart_items[$x], 'PRODUCT_VAT', $row['vat']);
 			$cart_items[$x] = render_cnt_template($cart_items[$x], 'ORDER_NUM', html_specialchars($row['shopprod_ordernumber']));
 			$cart_items[$x] = render_cnt_template($cart_items[$x], 'MODEL', html_specialchars($row['shopprod_model']));
+			$cart_items[$x] = render_cnt_template($cart_items[$x], 'PRODUCT_UNIT', html($row['shopprod_unit']));
 
 			$cart_items[$x] = render_cnt_template($cart_items[$x], 'PRODUCT_OPT1', $opt1_txt);
 			$cart_items[$x] = render_cnt_template($cart_items[$x], 'PRODUCT_OPT2', $opt2_txt);
@@ -336,6 +337,3 @@ foreach( _getConfig( 'shop_pref_shipping', '_shopPref' ) as $item_key => $row ) 
 	}
 
 }
-
-
-?>

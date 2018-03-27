@@ -3,9 +3,9 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 
@@ -30,4 +30,3 @@ $ci_lang['imglib_copy_failed'] = 'Das Kopieren der Bilddatei ist fehlgeschlagen.
 $ci_lang['imglib_missing_font'] = 'Es konnte keine Schriftartendatei gefunden werden.';
 $ci_lang['imglib_save_failed'] = 'Sichern der Bilddatei fehlgeschlagen. Vergewissern Sie sich, dass die Bilddatei und das Zielverzeichnis beschreibbar sind.';
 
-?>

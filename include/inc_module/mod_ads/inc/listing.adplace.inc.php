@@ -3,16 +3,16 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 
 // ----------------------------------------------------------------
 // obligate check for phpwcms constants
 if (!defined('PHPWCMS_ROOT')) {
-   die("You Cannot Access This Script Directly, Have a Nice Day.");
+	die("You Cannot Access This Script Directly, Have a Nice Day.");
 }
 // ----------------------------------------------------------------
 
@@ -49,9 +49,9 @@ foreach($data as $row) {
 
 	echo '	<td width="50%">'.html($row["adplace_title"])."</td>\n";
 
-	echo '	<td class="listFormat" nowrap="nowrap">'.html($row["adformat_title"])."</td>\n";
+	echo '	<td class="listFormat nowrap"">'.html($row["adformat_title"])."</td>\n";
 	echo '	<td class="listFormat">{ADS_'.$row["adplace_id"]."}</td>\n";
-	echo '	<td class="listFormat">'.$row["adplace_width"].'x'.$row["adplace_height"]."&nbsp;</td>\n";
+	echo '	<td class="listFormat nowrap">'.$row["adplace_width"].'x'.$row["adplace_height"]."&nbsp;</td>\n";
 
 
 	echo '	<td align="right" nowrap="nowrap" class="button_td">';

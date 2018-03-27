@@ -3,9 +3,9 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 
@@ -134,7 +134,7 @@ class phpwcmsImageGallery {
 	/*
 	 * Initialize some defaults
 	 */
-	function phpwcmsImageGallery() {
+	function __construct() {
 
 		$this->_getGallerySortString();
 
@@ -145,13 +145,13 @@ class phpwcmsImageGallery {
 
 		$this->setAlias( $this->alias );
 
-		$this->image_src = PHPWCMS_URL.'img/cmsimage.php'.$this->query_separator;
+		$this->image_src = PHPWCMS_URL.PHPWCMS_RESIZE_IMAGE.$this->query_separator;
 
 	}
 
 	function setQuerySeparator($query_separator) {
 
-		$this->image_src = PHPWCMS_URL.'img/cmsimage.php'.$query_separator;
+		$this->image_src = PHPWCMS_URL.PHPWCMS_RESIZE_IMAGE.$query_separator;
 
 	}
 
@@ -528,7 +528,7 @@ class phpwcmsImageGallery {
 				$a .= '/' . $image['f_hash'] . '.' . $image['f_ext'] . '" target="_blank"';
 
 				if($this->lightbox === true) {
-					$a .= ' rel="lightbox[gallery'.$folder.']"';
+                    $a .= ' rel="lightbox[gallery'.$folder.']"'.get_attr_data_gallery('gallery'.$folder, ' ', '');
 				}
 				if($image['f_longinfo'] != '') {
 
@@ -572,7 +572,7 @@ class phpwcmsImageGallery {
 				$content['file_static_result'][0]	= $image;
 
 				// include content part files renderer
-				include(PHPWCMS_ROOT.'/include/inc_front/content/cnt7.article.inc.php');
+				include PHPWCMS_ROOT.'/include/inc_front/content/cnt7.article.inc.php';
 
 				$img = render_cnt_template($img, 'DOWNLOAD', $news['files_result'] );
 
@@ -757,5 +757,3 @@ class phpwcmsImageGallery {
 	}
 
 }
-
-?>

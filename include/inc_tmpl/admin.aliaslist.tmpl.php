@@ -3,16 +3,16 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 
 // ----------------------------------------------------------------
 // obligate check for phpwcms constants
 if (!defined('PHPWCMS_ROOT')) {
-   die("You Cannot Access This Script Directly, Have a Nice Day.");
+	die("You Cannot Access This Script Directly, Have a Nice Day.");
 }
 // ----------------------------------------------------------------
 
@@ -23,7 +23,7 @@ echo '<h1 class="title">', $BL['be_alias'], '</h1>'; //' ('.$BL['be_ftptakeover_
 $sql  = '(';
 $sql .=	"	SELECT article_id AS id, article_title AS title, article_alias AS alias, ";
 $sql .= "	UNIX_TIMESTAMP(article_tstamp) AS timestamp, 'article' AS type, article_aktiv AS active, ";
-$sql .= "	IF(article_begin < NOW() AND article_end > NOW(), 0, 1) AS hidden, '' AS struct";
+$sql .= "	IF(article_begin < NOW() AND (article_end='0000-00-00 00:00:00' OR article_end > NOW()), 0, 1) AS hidden, '' AS struct";
 $sql .= "	FROM ".DB_PREPEND."phpwcms_article WHERE article_deleted=0";
 $sql .= ') UNION (';
 $sql .=	"	SELECT acat_id AS id, acat_name AS title, acat_alias AS alias, ";

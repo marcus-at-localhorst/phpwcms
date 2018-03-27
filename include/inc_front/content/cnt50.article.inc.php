@@ -3,16 +3,16 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 
 // ----------------------------------------------------------------
 // obligate check for phpwcms constants
 if (!defined('PHPWCMS_ROOT')) {
-   die("You Cannot Access This Script Directly, Have a Nice Day.");
+	die("You Cannot Access This Script Directly, Have a Nice Day.");
 }
 // ----------------------------------------------------------------
 
@@ -86,7 +86,7 @@ if($content['reference']['ref_count']) {
 	));
 
 	if($thumb_image != false) {
-		$content['reference']['ref_image']  = '<img src="'.PHPWCMS_IMAGES . $thumb_image[0] ;
+		$content['reference']['ref_image']  = '<img src="' . $thumb_image['src'] ;
 		$content['reference']['ref_image'] .= '" border="'.$content['reference']['border'].'" '; //.$thumb_image[3]
 		$content['reference']['ref_image'] .= ' alt="" ';//title="'.$img_name.'"
 		$content['reference']['ref_image'] .= 'id="'.$content['reference']['ref_id'].'" name="'.$content['reference']['ref_id'].'" />';
@@ -159,7 +159,7 @@ if($content['reference']['ref_count']) {
 
 
 				if($zoominfo != false) {
-					$popup_link  = 'image_zoom.php?'.getClickZoomImageParameter($zoominfo[0].'?'.$zoominfo[3]);
+					$popup_link  = 'image_zoom.php?'.getClickZoomImageParameter($zoominfo['src'].'?'.$zoominfo[3]);
 
 					$content['reference']['x5'] = '<a href="'.$popup_link.'" onclick="window.open(\''.$popup_link."','previewpic','width=".$zoominfo[1].",height=".$zoominfo[2]."');return false;\">";
 					$content['reference']['x6'] = '</a>';
@@ -194,7 +194,7 @@ if($content['reference']['ref_count']) {
 				} else {
 					$img_name = html_specialchars($content['reference']["list"][$captkey][1]);
 				}
-				$content['reference']['ref_list'] .= '<img src="'.PHPWCMS_IMAGES . $thumb_image[0] ;
+				$content['reference']['ref_list'] .= '<img src="' . $thumb_image['src'] ;
 				$content['reference']['ref_list'] .= '" border="'.$content['reference']['border'].'" ';
 				$content['reference']['ref_list'] .= $thumb_image[3].' alt="'.$img_name.'" title="'.$img_name;
 				$content['reference']['ref_list'] .= '" id="'.$content['reference']['ref_id'].'a'.$captkey;
@@ -204,7 +204,7 @@ if($content['reference']['ref_count']) {
 				$content['reference']['ref_list'] .= 'onmouseover="';
 				if($over_image != false) {
 					$content['reference']['ref_list'] .= "MM_swapImage('".$content['reference']['ref_id'];
-					$content['reference']['ref_list'] .= "','','". PHPWCMS_IMAGES . $over_image[0]."',1);";
+					$content['reference']['ref_list'] .= "','','".$over_image['src']."',1);";
 				}
 				// make single quotes js compatible
 				$content['reference']['x7'] = js_singlequote($content['reference']['caption_list'][$captkey]);
@@ -228,13 +228,14 @@ if($content['reference']['ref_count']) {
 
 }
 
-$content['reference']["tmpl"] = render_cnt_template($content['reference']["tmpl"], 'TITLE', html_specialchars($crow["acontent_title"]));
-$content['reference']["tmpl"] = render_cnt_template($content['reference']["tmpl"], 'SUB', html_specialchars($crow["acontent_subtitle"]));
+$content['reference']["tmpl"] = render_cnt_template($content['reference']["tmpl"], 'ATTR_CLASS', html($crow['acontent_attr_class']));
+$content['reference']["tmpl"] = render_cnt_template($content['reference']["tmpl"], 'ATTR_ID', html($crow['acontent_attr_id']));
+$content['reference']["tmpl"] = render_cnt_template($content['reference']["tmpl"], 'TITLE', html($crow["acontent_title"]));
+$content['reference']["tmpl"] = render_cnt_template($content['reference']["tmpl"], 'SUB', html($crow["acontent_subtitle"]));
 $content['reference']["tmpl"] = render_cnt_template($content['reference']["tmpl"], 'TEXT', nl2br($content['reference']["text"]));
 $content['reference']["tmpl"] = render_cnt_template($content['reference']["tmpl"], 'CAPTION', $content['reference']['ref_caption']);
 $content['reference']["tmpl"] = render_cnt_template($content['reference']["tmpl"], 'LIST', $content['reference']['ref_list']);
 $content['reference']["tmpl"] = render_cnt_template($content['reference']["tmpl"], 'REF', $content['reference']['ref_image']);
+$content['reference']["tmpl"] = str_replace('{ID}', $crow['acontent_id'], $content['reference']["tmpl"]);
 
 $CNT_TMP .= $content['reference']["tmpl"];
-
-?>

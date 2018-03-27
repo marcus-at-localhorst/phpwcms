@@ -3,16 +3,16 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 
 // ----------------------------------------------------------------
 // obligate check for phpwcms constants
 if (!defined('PHPWCMS_ROOT')) {
-   die("You Cannot Access This Script Directly, Have a Nice Day.");
+	die("You Cannot Access This Script Directly, Have a Nice Day.");
 }
 // ----------------------------------------------------------------
 
@@ -20,6 +20,21 @@ if (!defined('PHPWCMS_ROOT')) {
 require_once(PHPWCMS_ROOT.'/include/inc_front/img.func.inc.php');
 
 //ecard
+
+$crow['attr_class_id'] = array();
+if($crow['acontent_attr_class']) {
+    $crow['attr_class_id'][] = 'class="'.html($crow['acontent_attr_class']).'"';
+}
+if($crow['acontent_attr_id']) {
+    $crow['attr_class_id'][] = 'id="'.html($crow['acontent_attr_id']).'"';
+}
+
+if(($crow['attr_class_id'] = implode(' ', $crow['attr_class_id']))) {;
+    $CNT_TMP .= '<div '.$crow['attr_class_id'].'>';
+    $crow['attr_class_id_close'] = '</div>';
+} else {
+    $crow['attr_class_id_close'] = '';
+}
 
 $CNT_TMP .= headline($crow["acontent_title"], $crow["acontent_subtitle"], $template_default["article"]);
 $ecard = unserialize($crow["acontent_form"]);
@@ -54,7 +69,7 @@ if(isset($_POST['ecard_chooser'])) {
 			"thumb_name"	=>	md5($ecard['images'][$ecard["chooser"]][2].$ecard['images'][$ecard["chooser"]][4].$ecard['images'][$ecard["chooser"]][5].$phpwcms["sharpen_level"].$phpwcms['colorspace'])
         ));
 
-		$list_img_temp  = '<img src="'.PHPWCMS_IMAGES.$thumb_image[0].'" '.$thumb_image[3].' alt="'.html_specialchars($ecard['images'][$ecard["chooser"]][1]).'" />';
+		$list_img_temp  = '<img src="'.$thumb_image['src'].'" '.$thumb_image[3].' alt="'.html($ecard['images'][$ecard["chooser"]][1]).'" />';
 
 		$ecard["send"] = str_replace('###ECARD_TITLE###', html_specialchars(chop($ecard["capt"][$ecard["chooser"]])), $ecard["send"]);
 		$ecard["send"] = str_replace('###ECARD_IMAGE###', $list_img_temp, $ecard["send"]);
@@ -92,8 +107,8 @@ if(isset($_POST['ecard_chooser'])) {
 			$ecard['mailer']->setLanguage('en', PHPWCMS_ROOT.'/include/inc_ext/phpmailer/language/');
 		}
 
-		$ecard["mailer"]->From = $ecard["sender_email"];
-		if($ecard["sender_name"]) $ecard["mailer"]->FromName = $ecard["sender_name"];
+		$ecard["mailer"]->setFrom($ecard["sender_email"], $ecard["sender_name"]);
+		$ecard["mailer"]->addReplyTo($ecard["sender_email"], $ecard["sender_name"]);
 		$ecard["mailer"]->addAddress($ecard["recipient_email"], $ecard["recipient_name"]);
 		$ecard["mailer"]->Subject = ($ecard["subject"]) ? $ecard["subject"] : 'E-Card: '.chop($ecard["capt"][$ecard["chooser"]]);
 
@@ -104,7 +119,7 @@ if(isset($_POST['ecard_chooser'])) {
 			"max_height"	=>	$phpwcms["img_prev_height"],
 			"thumb_name"	=>	md5($ecard['images'][$ecard["chooser"]][2].$phpwcms["img_prev_width"].$phpwcms["img_prev_height"].$phpwcms["sharpen_level"].$phpwcms['colorspace'].'ecard')
 		));
-		$list_img_temp  = '<img src="'.PHPWCMS_URL.PHPWCMS_IMAGES.$thumb_image[0].'" '.$thumb_image[3].' alt="'.html_specialchars($ecard['images'][$ecard["chooser"]][1]).'" />';
+		$list_img_temp  = '<img src="'.PHPWCMS_URL.$thumb_image['src'].'" '.$thumb_image[3].' alt="'.html_specialchars($ecard['images'][$ecard["chooser"]][1]).'" />';
 
 		if($ecard["mail"]) {
 			$ecard["mail"] = str_replace('###ECARD_TITLE###', html_specialchars(chop($ecard["capt"][$ecard["chooser"]])), $ecard["mail"]);
@@ -131,7 +146,7 @@ if(isset($_POST['ecard_chooser'])) {
 }
 
 if(is_array($ecard['images']) && count($ecard['images']) && !$ecard["send_success"]) {
-	//Nochmal Prüfen auf leere Werte oder Dopplungen und Zuweisen der einzelnen Werte
+	//Nochmal Prï¿½fen auf leere Werte oder Dopplungen und Zuweisen der einzelnen Werte
 
 	$ecard["onover"]	= preg_replace('/;{1,}$/', '', $ecard["onover"])	.';';
 	$ecard["onclick"]	= preg_replace('/;{1,}$/', '', $ecard["onclick"])	.';';
@@ -195,7 +210,7 @@ if(is_array($ecard['images']) && count($ecard['images']) && !$ecard["send_succes
 	switch($ecard["pos"]) {
 		case 0: $ecard["chooser"] = imagelisttable($ecard, "0:5:0:0", '', 1); 		break;	//links
 		case 1:	$ecard["chooser"] = imagelisttable($ecard, "0:5:0:0", "center", 1); break;	//center
-		case 1:	$ecard["chooser"] = imagelisttable($ecard, "0:5:0:0", "center", 1); break; 	//right
+		case 2:	$ecard["chooser"] = imagelisttable($ecard, "0:5:0:0", "right", 1); break; 	//right
 	}
 	$ecard["form"] = str_replace('###ECARD_CHOOSER###', $ecard["chooser"], $ecard["form"]);
 	if(!$ecard["send_err"]) {
@@ -223,4 +238,4 @@ if(is_array($ecard['images']) && count($ecard['images']) && !$ecard["send_succes
 	$CNT_TMP .= '</form>';
 }
 
-?>
+$CNT_TMP .= $crow['attr_class_id_close'];

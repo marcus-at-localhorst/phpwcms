@@ -3,9 +3,9 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 
@@ -642,10 +642,9 @@ $BL['be_article_adminuser']             = 'المستخدم الإداري';
 $BL['be_article_username']              = 'المحرر';
 
 // added: 10-01-2004
-$BL['be_ctype_wysywig']                 = 'WYSYWIG HTMLترميز لغة ';
+$BL['be_ctype_wysiwyg']                 = 'WYSIWYG HTMLترميز لغة ';
 
 // added, changed: 11-01-2004
 $BL['be_admin_struct_regonly']          = 'مرئي للزوار الذين قاموا بتسجيل الدخول للموقع فقط';
 $BL['be_admin_struct_status']           = 'حالة قائمة إعدادات واجهة زوار الموقع';
 
-?>

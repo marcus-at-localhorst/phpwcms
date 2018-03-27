@@ -3,9 +3,9 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 
@@ -29,7 +29,7 @@ $setup_recommend = true;
 
 		case -1:	// current used PHP is > OK
 					echo '<img src="../img/famfamfam/icon_accept.gif" alt="OK" class="icon1" />';
-					if(version_compare('5.3', phpversion()) == 1) {
+					if(version_compare('5.6', phpversion()) == 1) {
 						echo ' (it is recommend to update your PHP version)';
 					}
 					break;
@@ -49,13 +49,21 @@ $setup_recommend = true;
 	}
 
 
-   ?></li>
-  <li>MySQL version: <?php
+    ?></li>
+    <li>MySQLi extension: <?php
+    if(function_exists('mysqli_connect')) {
+        echo '<strong>installed</strong> <img src="../img/famfamfam/icon_accept.gif" alt="OK" class="icon1" />';
+    } else {
+        echo '<strong class="error">not installed</strong> <img src="../img/famfamfam/action_stop.gif" alt="Stop" class="icon1" />';
+		$setup_recommend = false;
+    }
+  ?></li>
+  <li>MySQLi version: <?php
 
-  	$mysql_version = @mysql_get_server_info();
+  	$mysql_version = @mysqli_get_server_info();
   	$mysqlnd = false;
   	if(!$mysql_version) {
-		$mysql_version = @mysql_get_client_info();
+		$mysql_version = @mysqli_get_client_info();
 	}
 
 	if(strpos($mysql_version, 'mysqlnd') !== false) {
@@ -201,8 +209,8 @@ if(!is_writable($DOCROOT.'/setup/setup.conf.inc.php')) {
 	if(!$setup_recommend) {
 
 		echo '<p class="error">
-		<img src="../img/famfamfam/icon_alert.gif" alt="" class="icon1" />
-		It is not recommend to continue with setup. See the warnings!
+		    <img src="../img/famfamfam/icon_alert.gif" alt="" class="icon1" />
+		    <strong>It is not recommend to continue with setup. See the warnings!</strong>
 		</p>';
 
 	}

@@ -2,17 +2,17 @@
 /**
  * phpwcms content management system
  *
- * @author Oliver Georgi <oliver@phpwcms.de>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @author Oliver Georgi <oliver@phpwcms.org>
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 
 // ----------------------------------------------------------------
 // obligate check for phpwcms constants
 if (!defined('PHPWCMS_ROOT')) {
-   die("You Cannot Access This Script Directly, Have a Nice Day.");
+	die("You Cannot Access This Script Directly, Have a Nice Day.");
 }
 // ----------------------------------------------------------------
 
@@ -95,22 +95,22 @@ function shop_image_tag($img=array(), $counter=0, $title='') {
 	if($thumb_image) {
 
 		// now try to build caption and if neccessary add alt to image or set external link for image
-		$caption	= getImageCaption($img['caption']);
+		$caption	= getImageCaption(array('caption' => $img['caption'], 'file' => $img['f_id']));
 		// set caption and ALT Image Text for imagelist
 		$capt_cur	= html($caption[0]);
 		$caption[3] = empty($caption[3]) ? '' : ' title="'.html($caption[3]).'"'; //title
 		$caption[1] = html(empty($caption[1]) ? $img['f_name'] : $caption[1]);
 
-		$list_img_temp  = '<img src="'.PHPWCMS_IMAGES.$thumb_image[0].'" ';
-		$list_img_temp .= $thumb_image[3].' alt="'.$caption[1].'"'.$caption[3].$title.' border="0" />';
+		$list_img_temp  = '<img src="'.$thumb_image['src'].'" ';
+		$list_img_temp .= $thumb_image[3].' alt="'.$caption[1].'"'.$caption[3].$title.' />';
 
 		// use lightbox effect
 		if($config['image_'.$config['mode'].'_lightbox']) {
 
-			$a  = '<a href="img/cmsimage.php/';
+			$a  = '<a href="'.PHPWCMS_RESIZE_IMAGE.'/';
 			$a .= $config['image_zoom_width'] . 'x' . $config['image_zoom_height'] . '/';
 			$a .= $img['f_hash'] . '.' . $img['f_ext'] . '" ';
-			$a .= 'target="_blank" rel="lightbox'.$config['lightbox_id'].'"' . $caption[3] . $title . '>';
+            $a .= 'target="_blank" rel="lightbox'.$config['lightbox_id'].'"' . get_attr_data_gallery($config['lightbox_id'], ' ', '') . $caption[3] . $title . '>';
 
 			$list_img_temp = $a . $list_img_temp . '</a>';
 		}
@@ -242,7 +242,7 @@ function shop_files($data=array()) {
 	$crow		= array();
 
 	// include content part files renderer
-	include(PHPWCMS_ROOT.'/include/inc_front/content/cnt7.article.inc.php');
+	include PHPWCMS_ROOT.'/include/inc_front/content/cnt7.article.inc.php';
 
 	return $news['files_result'];
 
@@ -257,5 +257,3 @@ function get_shop_option_value_config() {
 		'suffix' => $GLOBALS['_tmpl']['config']['price_option_suffix']
 	);
 }
-
-?>

@@ -3,22 +3,22 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 
 // ----------------------------------------------------------------
 // obligate check for phpwcms constants
 if (!defined('PHPWCMS_ROOT')) {
-   die("You Cannot Access This Script Directly, Have a Nice Day.");
+	die("You Cannot Access This Script Directly, Have a Nice Day.");
 }
 // ----------------------------------------------------------------
 
 
-//Auslesen der eventuell für den User bereits vorhandenen Detaildaten
-//1. Prüfen, ob überhaupt ein Profil angelegt ist
+//Auslesen der eventuell fï¿½r den User bereits vorhandenen Detaildaten
+//1. Prï¿½fen, ob ï¿½berhaupt ein Profil angelegt ist
 $sql = 'SELECT COUNT(*) FROM '.DB_PREPEND.'phpwcms_userdetail WHERE detail_pid='.intval($_SESSION["wcs_user_id"]);
 
 if(_dbQuery($sql, 'COUNT')) {
@@ -73,7 +73,7 @@ if($form_detail_aktion == 'create_detail') {
 <?php
 	//if error during login occurs
 	if(!empty($detail_updated)) {
-		echo '<tr><td colspan="3" class="error"><img src="img/leer.gif" alt=" width="1" height="10" /><br /><strong>';
+		echo '<tr><td colspan="3" class="error"><img src="img/leer.gif" alt="" width="1" height="10" /><br /><strong>';
 		echo nl2br(chop($detail_updated)).'</strong></td></tr>';
 	}
 ?>

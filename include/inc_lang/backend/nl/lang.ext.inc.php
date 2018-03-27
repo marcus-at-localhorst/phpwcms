@@ -3,9 +3,9 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 // Tanslated by http://www.repute.nl
@@ -45,4 +45,3 @@ $BL['KEYWORDS']          = 'sleutelwoorden';
 $BL['DOWNLOAD_ERR3']     = 'fout bij het lezen van de bstands informatie<br />sluit het venster en probeer opnieuw...';
 
 
-?>

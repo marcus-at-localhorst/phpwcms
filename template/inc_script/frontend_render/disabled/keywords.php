@@ -2,12 +2,12 @@
 
 /**
  * Overwrite or extend keywords
- */ 
+ */
 
 if(empty($content['all_keywords'])) {
-	$content['all_keywords'] = 'set, my, default, keywords';
+    $content['all_keywords'] = 'set, my, default, keywords';
 } else {
-	$content['all_keywords'] .= ', add, my, default, keywords';
+    $content['all_keywords'] .= ', add, my, default, keywords';
 }
 
 /**
@@ -24,5 +24,3 @@ set_meta('robots', 'index,follow');
  * It is also easy to set http-equiv meta tags
  */
 set_meta('Content-Language', 'en', TRUE);
-
-?>

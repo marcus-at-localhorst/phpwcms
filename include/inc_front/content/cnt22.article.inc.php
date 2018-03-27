@@ -3,22 +3,20 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 
 // ----------------------------------------------------------------
 // obligate check for phpwcms constants
 if (!defined('PHPWCMS_ROOT')) {
-   die("You Cannot Access This Script Directly, Have a Nice Day.");
+	die("You Cannot Access This Script Directly, Have a Nice Day.");
 }
 // ----------------------------------------------------------------
 
 // RSS feed
-
-//$CNT_TMP .= headline($crow["acontent_title"], $crow["acontent_subtitle"], $template_default["article"]);
 
 if( !empty($crow["acontent_form"]) && is_string($crow["acontent_form"]) ) {
 	$rssfeed = unserialize($crow["acontent_form"]);
@@ -49,8 +47,10 @@ if( isset($rssfeed['rssurl']) && !empty($rssfeed['rssurl']) ) {
 	$rss['template_FEEDINFO']	= get_tmpl_section('FEEDINFO',	$rssfeed['template']);
 	$rss['template_RSSFEED']	= get_tmpl_section('RSSFEED',	$rssfeed['template']);
 
+    require_once PHPWCMS_ROOT.'/include/inc_ext/idna_convert/idna_convert.class.php';
+
 	// Load SimplePie
-	require_once(PHPWCMS_ROOT.'/include/inc_ext/simplepie.inc.php');
+	require_once(PHPWCMS_ROOT.'/include/inc_ext/simplepie/SimplePie.compiled.php');
 
 	$rss_obj = new SimplePie();
 
@@ -165,6 +165,8 @@ if( isset($rssfeed['rssurl']) && !empty($rssfeed['rssurl']) ) {
 		}
 
 		// whole rss feed
+		$rss['template_RSSFEED'] = render_cnt_template($rss['template_RSSFEED'], 'ATTR_CLASS', html($crow['acontent_attr_class']));
+        $rss['template_RSSFEED'] = render_cnt_template($rss['template_RSSFEED'], 'ATTR_ID', html($crow['acontent_attr_id']));
 		$rss['template_RSSFEED'] = render_cnt_template($rss['template_RSSFEED'], 'TITLE', html_specialchars($crow['acontent_title']) );
 		$rss['template_RSSFEED'] = render_cnt_template($rss['template_RSSFEED'], 'SUBTITLE', html_specialchars($crow['acontent_subtitle']) );
 		$rss['template_RSSFEED'] = render_cnt_template($rss['template_RSSFEED'], 'ITEMS', implode( LF , $rss['items'] ) );
@@ -178,5 +180,3 @@ if( isset($rssfeed['rssurl']) && !empty($rssfeed['rssurl']) ) {
 
 }
 unset($rss, $rssfeed);
-
-?>

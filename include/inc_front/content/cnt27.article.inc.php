@@ -3,20 +3,18 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2015, Oliver Georgi
+ * @copyright Copyright (c) 2002-2018, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
- * @link http://www.phpwcms.de
+ * @link http://www.phpwcms.org
  *
  **/
 
 // ----------------------------------------------------------------
 // obligate check for phpwcms constants
 if (!defined('PHPWCMS_ROOT')) {
-   die("You Cannot Access This Script Directly, Have a Nice Day.");
+	die("You Cannot Access This Script Directly, Have a Nice Day.");
 }
 // ----------------------------------------------------------------
-
-
 
 //FAQ
 
@@ -51,7 +49,7 @@ $thumb_img		= '';
 $caption[0]		= '';
 if(!empty($crow["acontent_image"][2])) {
 
-	$caption = getImageCaption(base64_decode($crow["acontent_image"][6]));
+	$caption = getImageCaption(array('caption' => base64_decode($crow["acontent_image"][6]), 'file' => $crow["acontent_image"][0]));
 	$caption[0]	= html_specialchars($caption[0]);
 	$caption[3] = empty($caption[3]) ? '' : ' title="'.html_specialchars($caption[3]).'"'; //title
 	$caption[1] = empty($caption[1]) ? html_specialchars($crow["acontent_image"][1]) : html_specialchars($caption[1]);
@@ -66,8 +64,7 @@ if(!empty($crow["acontent_image"][2])) {
 
 	if($thumb_image != false) {
 
-		$thumb_img  = '<img src="'.PHPWCMS_IMAGES . $thumb_image[0] .'" '.$thumb_image[3];
-		$thumb_img .= ' alt="'.$caption[1].'"'.$caption[3].' />';
+		$thumb_img  = '<img src="'. $thumb_image['src'] .'" ' . $thumb_image[3] . ' alt="'.$caption[1].'"'.$caption[3].' />';
 
 		if($crow["acontent_image"][8]) {
 
@@ -81,7 +78,7 @@ if(!empty($crow["acontent_image"][2])) {
 
 			if($zoominfo != false) {
 
-				$popup_img = 'image_zoom.php?'.getClickZoomImageParameter($zoominfo[0].'?'.$zoominfo[3]);
+				$popup_img = 'image_zoom.php?'.getClickZoomImageParameter($zoominfo['src'].'?'.$zoominfo[3]);
 
 				if(!empty($caption[2][0])) {
 					$open_link = $caption[2][0];
@@ -106,10 +103,8 @@ if(!empty($crow["acontent_image"][2])) {
 	}
 }
 
-
-
-
-// now render whole recipe
+$crow["acontent_form"]['faq_template'] = render_cnt_template($crow["acontent_form"]['faq_template'], 'ATTR_CLASS', html($crow['acontent_attr_class']));
+$crow["acontent_form"]['faq_template'] = render_cnt_template($crow["acontent_form"]['faq_template'], 'ATTR_ID', html($crow['acontent_attr_id']));
 $crow["acontent_form"]['faq_template'] = render_cnt_template($crow["acontent_form"]['faq_template'], 'TITLE', html_specialchars($crow['acontent_title']));
 $crow["acontent_form"]['faq_template'] = render_cnt_template($crow["acontent_form"]['faq_template'], 'SUBTITLE', html_specialchars($crow['acontent_subtitle']));
 $crow["acontent_form"]['faq_template'] = render_cnt_template($crow["acontent_form"]['faq_template'], 'FAQ_QUESTION', html_specialchars($crow["acontent_text"]));
@@ -120,9 +115,4 @@ $crow["acontent_form"]['faq_template'] = str_replace('{FAQ_ID}', $crow['acontent
 
 $CNT_TMP .= $crow["acontent_form"]['faq_template'];
 
-
-
-
 unset($image, $caption);
-
-?>

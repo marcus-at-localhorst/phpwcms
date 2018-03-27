@@ -6,12 +6,12 @@
 			{IMAGE}
 		[ARTICLELINK]</a>[/ARTICLELINK]
 
-		[CAPTION]
+		[CAPTION_SUPPRESS_ELSE][CAPTION]
 			<p class="list-image-caption">
 				{CAPTION}
 				[COPYRIGHT]<span class="copyright">{COPYRIGHT}</span>[/COPYRIGHT]
 			</p>
-		[/CAPTION]
+		[/CAPTION][/CAPTION_SUPPRESS_ELSE]
 	</div>
 [/IMAGE]
 [TITLE]	<h1>{TITLE}</h1>[/TITLE][SUB]
@@ -32,20 +32,3 @@
 	</p>
 [/MORE]
 </div>
-<!--
-	Livedate: {LIVEDATE:d.m.Y H:i:s lang=EN} / Killdate: {KILLDATE:d.m.Y H:i:s lang=EN} [IMAGE]
-
-	Image ID   {IMAGE_ID}
-	Image Hash {IMAGE_HASH}
-
-	Thumbnail  {THUMB_NAME}
-	Relative   {THUMB_REL}
-	Absolute   {THUMB_ABS}
-	WxH        {THUMB_WIDTH}px x {THUMB_HEIGHT}px[ZOOMIMAGE]
-
-	Zoomimage  {IMAGE_NAME}
-	Relative   {IMAGE_REL}
-	Absolute   {IMAGE_ABS}
-	WxH        {IMAGE_WIDTH}px x {IMAGE_HEIGHT}px
-	[/ZOOMIMAGE][/IMAGE]
--->
