@@ -15,3 +15,5 @@
 !.gitignore
 include/config.codekit3
 /include/build
+
+*.sublime-*
