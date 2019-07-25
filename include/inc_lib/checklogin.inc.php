@@ -3,7 +3,7 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2018, Oliver Georgi
+ * @copyright Copyright (c) 2002-2019, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
  * @link http://www.phpwcms.org
  *
@@ -28,7 +28,7 @@ if(!empty($_SESSION["wcs_user"])) {
 	$sql .= "WHERE logged_user="._dbEscape($_SESSION["wcs_user"])." AND ";
 	$sql .= "logged_in=1";
 
-	if(!empty($phpwcms['Login_IPcheck'])) {
+	if(!PHPWCMS_GDPR_MODE && !empty($phpwcms['Login_IPcheck'])) {
 		$sql .= " AND logged_ip="._dbEscape(getRemoteIP());
 	}
 

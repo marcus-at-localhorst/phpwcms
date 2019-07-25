@@ -3,7 +3,7 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2018, Oliver Georgi
+ * @copyright Copyright (c) 2002-2019, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
  * @link http://www.phpwcms.org
  *
@@ -353,6 +353,7 @@ function struct_articlelist($struct_id, $counter, $copy_article_content, $cut_ar
         //Sort counter
         $sc = 0;
         $scc = 0;
+        $sbutton = array();
 
         if(isset($result[0]['acontent_id'])) {
             foreach($result as $row) {

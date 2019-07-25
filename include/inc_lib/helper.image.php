@@ -3,7 +3,7 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2018, Oliver Georgi
+ * @copyright Copyright (c) 2002-2019, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
  * @link http://www.phpwcms.org
  *
@@ -854,6 +854,7 @@ class Phpwcms_Image_lib {
         }
         elseif ($action == 'rotate')
         {
+            $angle = 'r90';
             switch ($this->rotation_angle)
             {
                 case 90     :   $angle = 'r270';

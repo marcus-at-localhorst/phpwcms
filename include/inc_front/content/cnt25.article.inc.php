@@ -3,7 +3,7 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2018, Oliver Georgi
+ * @copyright Copyright (c) 2002-2019, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
  * @link http://www.phpwcms.org
  *
@@ -183,8 +183,8 @@ if(isset($fmp_data['fmp_template'])) {
 
         if(isset($fmp_data['preview'][0])) {
 
-            $fmp_data['preview']        = $fmp_data['preview'][0];
-            $fmp_data['fmp_preview']    = $fmp_data['preview']['f_hash'];
+            $fmp_data['preview']     = $fmp_data['preview'][0];
+            $fmp_data['fmp_preview'] = $fmp_data['preview']['f_hash'];
 
             if($fmp_data['preview']['f_ext']) {
 
@@ -193,7 +193,7 @@ if(isset($fmp_data['fmp_template'])) {
 
             }
 
-            $fmp_data['preview'] = PHPWCMS_URL . PHPWCMS_RESIZE_IMAGE . '/' . $fmp_data['fmp_width'].'x'.$fmp_data['fmp_height'].'x1x85/'.$fmp_data['fmp_preview'];
+            $fmp_data['preview'] = PHPWCMS_URL . PHPWCMS_RESIZE_IMAGE . '/' . $fmp_data['fmp_width'].'x'.$fmp_data['fmp_height'].'x1x85/'.$fmp_data['fmp_preview'].'/'.rawurlencode($fmp_data['preview']['f_name']);
 
         } else {
 

@@ -3,7 +3,7 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2018, Oliver Georgi
+ * @copyright Copyright (c) 2002-2019, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
  * @link http://www.phpwcms.org
  *
@@ -70,7 +70,7 @@ function subnavtext($text, $link, $is, $should, $getback=1, $js='') {
     } else {
         $sn .= "<tr><td><img name=\"".$id."\" src=\"img/subnav/subnav_A.gif\" width=\"15\" height=\"13\" border=\"0\" alt=\"\" /></td>";
         $sn .= "<td class=\"subnavinactive\"><a href=\"".$link."\" ".$js;
-        $sn .= "onMouseOver=\"".$id.".src='img/subnav/subnav_B.gif'\" onMouseOut=\"".$id;
+        $sn .= "onmouseover=\"".$id.".src='img/subnav/subnav_B.gif'\" onmouseout=\"".$id;
         $sn .= ".src='img/subnav/subnav_A.gif'\">".$text."</a></td></tr>";
     }
     $sn .= "\n";
@@ -88,15 +88,14 @@ function subnavtextext($text, $link, $target='_blank', $getback=1) {
     $id  = 'subnavid'.generic_string(5);
     $sn  = '<tr><td><img src="img/subnav/subnav_A.gif" width="15" height="13" border="0" name="'.$id.'" alt="" /></td>';
     $sn .= '<td class="subnavinactive"><a href="'.$link.'" target="'.$target.'" ';
-    $sn .= "onMouseOver=\"".$id.".src='img/subnav/subnav_B.gif'\" onMouseOut=\"".$id.".src='img/subnav/subnav_A.gif'\"";
+    $sn .= "onmouseover=\"".$id.".src='img/subnav/subnav_B.gif'\" onmouseout=\"".$id.".src='img/subnav/subnav_A.gif'\"";
     $sn .= '>'.$text.'</a></td></tr>';
     $sn .= "\n";
 
-    if(!$getback) {
-        return $sn;
-    } else {
+    if($getback) {
         echo $sn;
     }
+    return $sn;
 }
 
 function subnavback($text, $link, $h_before=0, $h_after=0) {
@@ -107,8 +106,8 @@ function subnavback($text, $link, $h_before=0, $h_after=0) {
     }
     $sn .= "<tr>";
     $sn .= "<td><img name=\"".$id."\" src=\"img/subnav/subnav_back_0.gif\" width=\"9\" height=\"9\" border=\"0\" alt=\"\" /></td>";
-    $sn .= "<td class=\"subnavinactive\">&nbsp;<a href=\"".$link."\" onMouseOver=\"".$id.".src='img/subnav/subnav_back_1.gif'\" ";
-    $sn .= "onMouseOut=\"".$id.".src='img/subnav/subnav_back_0.gif'\"><strong>".$text."</strong></a></td>";
+    $sn .= "<td class=\"subnavinactive\">&nbsp;<a href=\"".$link."\" onmouseover=\"".$id.".src='img/subnav/subnav_back_1.gif'\" ";
+    $sn .= "onmouseout=\"".$id.".src='img/subnav/subnav_back_0.gif'\"><strong>".$text."</strong></a></td>";
     $sn .= "</tr>";
     if(intval($h_after)) {
         $sn .= "<tr><td colspan=\"2\"><img src=\"img/leer.gif\" width=\"1\" height=\"".intval($h_after)."\" alt=\"\" /></td></tr>";
@@ -126,7 +125,7 @@ function subnavback($text, $link, $h_before=0, $h_after=0) {
  * @param mixed $file
  * @param string $filename (default: '')
  * @param mixed &$file_image_size
- * @return void
+ * @return string
  */
 function check_image_extension($file, $filename='', &$file_image_size) {
 
@@ -335,11 +334,8 @@ function phpwcmsversionCheck() {
         $version_time       = strtotime(PHPWCMS_RELEASE_DATE.' 00:00:00');
 
         if($latest_revision <= $phpwcms['revision'] || $latest_time <= $version_time)   {
-
             $version_info  = '<p class="valid">' . $BL['Version_up_to_date'] . '</p>';
-
         } else {
-
             $version_info  = '<p class="error">' . $BL['Version_not_up_to_date'] . '</p>';
         }
 
@@ -810,19 +806,25 @@ function _getTime($time='', $delimeter=':', $default_time='H:i:s') {
 
                 case 'H':   if(isset($time[$x])) {
                                 $hour = intval($time[$x]);
-                                if($hour < 0 || $hour > 23) $hour = 0;
+                                if($hour < 0 || $hour > 23) {
+                                    $hour = 0;
+                                }
                             }
                             break;
 
                 case 'i':   if(isset($time[$x])) {
                                 $minute = intval($time[$x]);
-                                if($minute < 0 || $minute > 59) $minute = 0;
+                                if($minute < 0 || $minute > 59) {
+                                    $minute = 0;
+                                }
                             }
                             break;
 
                 case 's':   if(isset($time[$x])) {
                                 $second = intval($time[$x]);
-                                if($second < 0 || $second > 59) $second = 0;
+                                if($second < 0 || $second > 59) {
+                                    $second = 0;
+                                }
                             }
                             break;
             }
@@ -832,9 +834,9 @@ function _getTime($time='', $delimeter=':', $default_time='H:i:s') {
     }
 
     $time = str_replace($delimeter, ':', $default_time);
-    $time = str_replace('H', $hour, $time);
-    $time = str_replace('i', $minute, $time);
-    $time = str_replace('s', $second, $time);
+    $time = str_replace('H', substr('0' . $hour, -2), $time);
+    $time = str_replace('i', substr('0' . $minute, -2), $time);
+    $time = str_replace('s', substr('0' . $second, -2), $time);
 
     return $time;
 }
@@ -863,19 +865,25 @@ function _getDate($date='', $delimeter='', $default_date='') {
 
                 case 'y':   if(isset($date[$x])) {
                                 $year = intval($date[$x]);
-                                if($year < 0) $year = '';
+                                if($year < 0) {
+                                    $year = '';
+                                }
                             }
                             break;
 
                 case 'd':   if(isset($date[$x])) {
                                 $day = intval($date[$x]);
-                                if($day < 1 || $day > 31) $day = '';
+                                if($day < 1 || $day > 31) {
+                                    $day = '';
+                                }
                             }
                             break;
 
                 case 'm':   if(isset($date[$x])) {
                                 $month = intval($date[$x]);
-                                if($month < 1 || $month > 12) $month = '';
+                                if($month < 1 || $month > 12) {
+                                    $month = '';
+                                }
                             }
                             break;
 
@@ -887,7 +895,7 @@ function _getDate($date='', $delimeter='', $default_date='') {
 
     if($year && $month && $day) {
 
-        return $year.'-'.$month.'-'.$day;
+        return substr('000' . $year, -4) . '-' . substr('0' . $month, -2) . '-' . substr('0' . $day, -2);
 
     } else {
 
@@ -1371,7 +1379,7 @@ function correct_charset($text='', $js=false) {
  *
  * @access public
  * @param mixed $iptc_data
- * @return void
+ * @return array
  */
 function render_iptc_fileinfo($iptc_data) {
 
@@ -1403,7 +1411,7 @@ function render_iptc_fileinfo($iptc_data) {
                     $iptc_value = $iptc_value[0];
                 } else {
                     $iptc_value = implode($GLOBALS['phpwcms']['iptc_separator'], $iptc_value);
-    }
+                }
 
             }
 
@@ -1414,7 +1422,6 @@ function render_iptc_fileinfo($iptc_data) {
 
             unset($iptc_keys[$iptc_key]);
         }
-
     }
 
     if(count($iptc_keys)) {
@@ -1431,11 +1438,8 @@ function render_iptc_fileinfo($iptc_data) {
 
                     $fileinfo[$field] = trim( render_custom_tag($fileinfo[$field], $iptc_key, $iptc_value) );
                 }
-
             }
-
         }
-
     }
 
     return $fileinfo;
@@ -1454,4 +1458,37 @@ function render_custom_tag($text='', $tag='', $value='', $value_else='', $case_s
     }
     $text = str_replace('{'.$tag.'}', $value, $text);
     return $text;
+}
+
+function get_template_file_select($block='', $name='', $selected='', $path='') {
+    if($block) {
+        if($name === '') {
+            $name = 'template_' . $block . '_file';
+        }
+        if($path === '') {
+            $path = PHPWCMS_TEMPLATE . 'inc_cntpart/template-sections/' . $block;
+        }
+        if(is_dir($path)) {
+            $files = get_tmpl_files($path, 'tmpl,html,tpl');
+            if(count($files)) {
+                $select = '<select name="' . $name .'" class="mb-3">';
+                $select .= '<option value=""';
+                if($selected === '') {
+                    $select .= ' selected="selected"';
+                }
+                $select .= '>' . $GLOBALS['BL']['be_admin_template_choose_file'] . '</option>';
+                foreach($files as $file) {
+                    $select .= '<option value="' . html($file) . '"';
+                    if($selected === $file) {
+                        $select .= ' selected="selected"';
+                    }
+                    $select .= '>inc_cntpart/template-sections/' . html($block.'/'.$file) . '</option>';
+                }
+                $select .= '</select><br />';
+                return $select;
+            }
+        }
+        return '<input type="hidden" name="' . $name . '" value="" />';
+    }
+    return '';
 }

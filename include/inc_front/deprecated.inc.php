@@ -3,7 +3,7 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2018, Oliver Georgi
+ * @copyright Copyright (c) 2002-2019, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
  * @link http://www.phpwcms.org
  *
@@ -154,7 +154,7 @@ function nav_table_simple_struct(&$struct, $act_cat_id, $link_to="index.php") {
 }
 
 function nav_table_struct_callback($matches) {
-	return nav_table_struct($GLOBALS['content']["struct"], $GLOBALS['content']["cat_id"], $matchs[1], $GLOBALS['template_default']["nav_table_struct"]);
+	return nav_table_struct($GLOBALS['content']["struct"], $GLOBALS['content']["cat_id"], $matches[1], $GLOBALS['template_default']["nav_table_struct"]);
 }
 
 function nav_table_struct (&$struct, $act_cat_id, $level, $nav_table_struct, $link_to="index.php") {
@@ -177,11 +177,7 @@ function nav_table_struct (&$struct, $act_cat_id, $level, $nav_table_struct, $li
 		$total_levels++;
 	}
 
-	if(is_array($data) && count($data)) {
-		$temp_tree = array_reverse($data, 1);
-	} else {
-		$temp_tree = false;
-	}
+	$temp_tree = is_array($data) && count($data) ? array_reverse($data, 1) : array();
 
 	foreach($struct as $key => $value) {
 		if($struct[$key]["acat_struct"] == $act_cat_id && $key && (!$struct[$key]["acat_hidden"] || isset($GLOBALS['LEVEL_KEY'][$key]))) {

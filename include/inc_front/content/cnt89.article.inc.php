@@ -3,7 +3,7 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2018, Oliver Georgi
+ * @copyright Copyright (c) 2002-2019, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
  * @link http://www.phpwcms.org
  *
@@ -22,7 +22,7 @@ $poll_image         = @unserialize($crow["acontent_image"]);
 $poll_text          = @unserialize($crow["acontent_text"]);
 $poll_form          = @unserialize($crow["acontent_form"]);
 $poll_choice_count  = 0;
-$remoteIP           = getRemoteIP();
+$remoteIP           = PHPWCMS_GDPR_MODE ? getAnonymizedIp() : getRemoteIP();
 
 if(!isset($poll_form["ip"])) {
     $poll_form["ip"] = array();

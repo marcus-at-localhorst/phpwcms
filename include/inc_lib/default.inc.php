@@ -3,7 +3,7 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2018, Oliver Georgi
+ * @copyright Copyright (c) 2002-2019, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
  * @link http://www.phpwcms.org
  *
@@ -189,8 +189,11 @@ define('PHPWCMS_STORAGE', PHPWCMS_ROOT.$phpwcms["file_path"]);
 define('LF', "\n");  //global new line Feed
 define('FEUSER_REGKEY', empty($phpwcms['feuser_regkey']) ? 'FEUSER' : $phpwcms['feuser_regkey']);
 define('RESPONSIVE_MODE', empty($phpwcms['responsive']) ? false : true);
+define('PHPWCMS_PRESERVE_IMAGENAME', empty($phpwcms['preserve_image_name']) ? false : true);
 define('PHPWCMS_IMAGE_WIDTH', $phpwcms['img_prev_width']);
 define('PHPWCMS_IMAGE_HEIGHT', $phpwcms['img_prev_height']);
+define('PHPWCMS_GDPR_MODE', isset($phpwcms['enable_GDPR']) ? !!$phpwcms['enable_GDPR'] : true);
+define('PHPWCMS_LOGDIR', PHPWCMS_CONTENT.'log');
 
 if(function_exists('mb_substr')) {
     define('MB_SAFE', true); //mbstring safe - better to do a check here
@@ -352,6 +355,7 @@ $phpwcms['default_template_classes'] = array(
     'navlist-asub_last'             => 'asub_last',
     'navlist-link-class'            => 'nav-link',
     'navlist-navLevel'              => 'nav-level-',
+    'navlist-bs-link'               => 'nav-link',
     'navlist-bs-dropdown'           => 'dropdown',
     'navlist-bs-dropdown-toggle'    => 'dropdown-toggle',
     'breadcrumb-active'             => 'active',
@@ -508,6 +512,32 @@ if(empty($phpwcms['allowed_upload_ext'])) {
     );
 }
 
+if(!isset($phpwcms['preserve_getVar'])) {
+    $phpwcms['preserve_getVar'] = array();
+}
+if(!isset($phpwcms['global_unregister_getVar'])) {
+    /**
+     * This var can be overwritten in conf.inc.php
+     */
+    $phpwcms['global_unregister_getVar'] = array(
+        'page',
+        'listpage',
+        'newsdetail',
+        'newspage',
+        'glossary',
+        'glossaryid',
+        'glossarytitle',
+        'shop_detail',
+        'shop_cat',
+        'shop_cart',
+        'gallery',
+        'subgallery'
+    );
+}
+if(is_array($phpwcms['preserve_getVar']) && count($phpwcms['preserve_getVar'])) {
+    $phpwcms['global_unregister_getVar'] = array_diff($phpwcms['global_unregister_getVar'], $phpwcms['preserve_getVar']);
+}
+
 /**
  * HTML Mode and document type
  */
@@ -581,6 +611,8 @@ $phpwcms["revision"] = PHPWCMS_REVISION;
 
 // We need a global var for callback functions, mainly dates
 $phpwcms['callback'] = null;
+
+$translate = array();
 
 // -------------------------------------------------------------
 
@@ -722,6 +754,14 @@ function returnGlobalGET_QueryString($format='', $add=array(), $remove=array(), 
     }
 
     if(is_array($remove) && count($remove)) {
+        if(count($GLOBALS['phpwcms']['global_unregister_getVar'])) {
+            $remove = array_merge($remove, $GLOBALS['phpwcms']['global_unregister_getVar']);
+        }
+    } else {
+        $remove = $GLOBALS['phpwcms']['global_unregister_getVar'];
+    }
+
+    if(count($remove)) {
         foreach($remove as $value) {
             unset($_getVarTemp[$value]);
         }
@@ -905,6 +945,16 @@ function getRemoteIP() {
     }
     define('REMOTE_IP', $IP);
     return $IP;
+}
+
+// source: https://gist.github.com/svrnm/3a124d2af18a6726f66e
+// anonymize_ip('76.97.51.109') => 76.97.0.0
+// anonymize_ip('2601:c2:4004:57d0:257d:b9ba:4b1e:baac') => 2601:c2:4004:57d0::
+function getAnonymizedIp() {
+    if($ip = @inet_pton(getRemoteIP())) {
+        return inet_ntop(substr($ip, 0, strlen($ip)/2) . str_repeat(chr(0), strlen($ip)/2));
+    }
+    return '0.0.0.0';
 }
 
 // Get user agent informations, based on concepts of OpenAds 2.0 (c) 2000-2007 by the OpenAds developers
@@ -1296,29 +1346,28 @@ function get_login_file() {
 /**
  * Encrypt string
  */
-function phpwcms_encrypt($plaintext, $key=PHPWCMS_USER_KEY, $cypher='blowfish', $mode='cfb') {
-    $td = mcrypt_module_open($cypher, '', $mode, '');
-    $iv = mcrypt_create_iv(mcrypt_enc_get_iv_size($td), MCRYPT_RAND);
-    mcrypt_generic_init($td, $key, $iv);
-    $crypttext = mcrypt_generic($td, $plaintext);
-    mcrypt_generic_deinit($td);
-    return $iv.$crypttext;
+function phpwcms_encrypt($plaintext, $password=PHPWCMS_USER_KEY) {
+    $key = hash('sha256', $password, true);
+    $iv = openssl_random_pseudo_bytes(16);
+    $ciphertext = openssl_encrypt($plaintext, 'AES-256-CBC', $key, OPENSSL_RAW_DATA, $iv);
+    $hash = hash_hmac('sha256', $ciphertext, $key, true);
+    return $iv . $hash . $ciphertext;
 }
 
 /**
  * Decrypt string
  */
-function phpwcms_decrypt($crypttext, $key=PHPWCMS_USER_KEY, $cypher='blowfish', $mode='cfb') {
-    $plaintext = '';
-    $td = mcrypt_module_open($cypher, '', $mode, '');
-    $ivsize = mcrypt_enc_get_iv_size($td);
-    $iv = substr($crypttext, 0, $ivsize);
-    $crypttext = substr($crypttext, $ivsize);
-    if ($iv) {
-        mcrypt_generic_init($td, $key, $iv);
-        $plaintext = mdecrypt_generic($td, $crypttext);
+function phpwcms_decrypt($crypttext, $password=PHPWCMS_USER_KEY) {
+    $iv = substr($crypttext, 0, 16);
+    $hash = substr($crypttext, 16, 32);
+    $ciphertext = substr($crypttext, 48);
+    $key = hash('sha256', $password, true);
+
+    if (hash_hmac('sha256', $ciphertext, $key, true) !== $hash) {
+        return null;
     }
-    return $plaintext;
+
+    return openssl_decrypt($ciphertext, 'AES-256-CBC', $key, OPENSSL_RAW_DATA, $iv);
 }
 
 /**
@@ -1360,4 +1409,15 @@ function get_base_url($use_forwarded_host = false, $set_protocol = true) {
     $script_name = basename($_SERVER['SCRIPT_FILENAME']);
     $uri_path = explode($script_name, $_SERVER['PHP_SELF'], 2);
     return rtrim(get_url_origin($use_forwarded_host, $set_protocol) . $uri_path[0], '/');
+}
+
+function logdir_exists() {
+    // always check if the log dir exists
+    if(@!is_dir(PHPWCMS_LOGDIR)) {
+        if(_mkdir(PHPWCMS_LOGDIR)) {
+            @file_put_contents(PHPWCMS_LOGDIR.'/.htaccess', 'Deny from all');
+            @file_put_contents(PHPWCMS_LOGDIR.'/index.html', '<html><head><title></title><meta content="0; url=../" http-equiv="refresh"/></head></html>');
+        }
+    }
+
 }

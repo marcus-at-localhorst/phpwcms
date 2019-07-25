@@ -3,7 +3,7 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2018, Oliver Georgi
+ * @copyright Copyright (c) 2002-2019, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
  * @link http://www.phpwcms.org
  *
@@ -69,7 +69,7 @@ if($media["media_src"]) {
 if(!empty($media["image_id"])) {
 
     $media["alt"] .= '<div class="alt-image">';
-    $media["alt"] .= '<img src="' . PHPWCMS_RESIZE_IMAGE . '/' . $media["media_width"] . 'x' . $media["media_height"] . 'x1/' . $media["image_id"] . '" ';
+    $media["alt"] .= '<img src="' . PHPWCMS_RESIZE_IMAGE . '/' . $media["media_width"] . 'x' . $media["media_height"] . 'x1/' . $media["image_id"] . '/' . rawurlencode($media["image_name"]) . '" ';
     $media["alt"] .= 'alt="'.html_specialchars($media["image_name"]).'" />';
     $media["alt"] .= '</div>';
 

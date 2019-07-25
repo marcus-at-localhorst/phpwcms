@@ -3,7 +3,7 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2018, Oliver Georgi
+ * @copyright Copyright (c) 2002-2019, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
  * @link http://www.phpwcms.org
  *
@@ -47,9 +47,9 @@ if(!empty($_GET['s']) || !empty($_GET['u'])) {
         switch($type) {
 
             case 'subscribe':       $sql  = 'UPDATE '.DB_PREPEND.'phpwcms_address ';
-                                    $sql .= 'SET address_verified=1 ';
+                                    $sql .= 'SET address_verified=1, address_tstamp=NOW() ';
                                     $sql .= "WHERE address_key='".aporeplace($hash)."'";
-                                    if(empty($data[0]['address_verified'])) {
+                                    if(isset($data[0]['address_verified'])) {
                                         $result = _dbQuery($sql, 'UPDATE');
                                     }
                                     if(!empty($data[0]['address_url1'])) {

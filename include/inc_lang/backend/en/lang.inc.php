@@ -3,7 +3,7 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2018, Oliver Georgi
+ * @copyright Copyright (c) 2002-2019, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
  * @link http://www.phpwcms.org
  *
@@ -953,6 +953,9 @@ $BL['be_cnt_field']                     = array(
     'recaptchainv' => 'Invisible reCAPTCHA',
 );
 
+$BL['be_cnt_optin']                     = 'Double Opt-In';
+$BL['be_cnt_doubleoptin']               = 'activate Double Opt-In according to <a href="https://en.wikipedia.org/wiki/General_Data_Protection_Regulation" target="_blank">General Data Protection Regulation</a> (GDPR)';
+
 $BL['be_cnt_access']                    = 'access';
 $BL['be_cnt_activated']                 = 'activated';
 $BL['be_cnt_available']                 = 'available';
@@ -1422,6 +1425,7 @@ $BL['be_attr_alt'] = 'alternative text';
 $BL['be_ie8ignore'] = 'disable <a href="https://en.wikipedia.org/wiki/Conditional_comment" target="_blank" class="underline">conditional comments</a> for IE8';
 $BL['be_cookie_consent_enable'] = 'enable Cookie Consent plugin';
 $BL['be_cookie_consent_message'] = 'consent message';
+$BL['be_cookie_consent_translatable'] = 'This installation has support for multiple languages (&#36;phpwcms[&#39;allowed_lang&#39;]) enabled. For translated cookie consent texts use the <b>@@Text@@</b> syntax and check `template/template_lang` after rendering.';
 $BL['cookie_consent_message'] = 'This website uses cookies to ensure you get the best experience on our website';
 $BL['be_cookie_consent_dismiss'] = 'dismiss button text';
 $BL['cookie_consent_dismiss'] = 'Got it!';
@@ -1486,3 +1490,5 @@ $BL['be_extensions_copyright'] = 'Extensions are copyright of their respective o
 
 $BL['be_password_show'] = 'Show password';
 $BL['be_password_hide'] = 'Hide password';
+
+$BL['be_admin_template_choose_file'] = 'text template, alternatively select file template';

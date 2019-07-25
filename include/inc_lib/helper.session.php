@@ -3,7 +3,7 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2018, Oliver Georgi
+ * @copyright Copyright (c) 2002-2019, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
  * @link http://www.phpwcms.org
  *
@@ -435,12 +435,10 @@ function validate_csrf_tokens($token_prefix='csrf_') {
 	if($_SERVER['REQUEST_METHOD'] === 'POST' && count($_POST)) {
 
 		if(empty($_POST[$token_prefix.'token_name']) || empty($_POST[$token_prefix.'token_value'])) {
-			trigger_error('No CSRF token found, probable invalid request.', E_USER_ERROR);
 			logout_user('csrf-post-invalid', 'danger');
 		}
 
 		if(!validate_session_token($_POST[$token_prefix.'token_name'], $_POST[$token_prefix.'token_value'])) {
-			trigger_error('Validating the CSRF token failed, probable an outdated request.', E_USER_ERROR);
 			logout_user('csrf-post-failed', 'danger');
 		}
 
@@ -484,7 +482,6 @@ function validate_csrf_get_token($token_name='csrftoken', $logout=true) {
 
 		if(empty($_GET[$token_name])) {
 			if($logout) {
-				trigger_error('No CSRF GET token found, probable invalid request.', E_USER_ERROR);
 				logout_user('csrf-get-invalid', 'danger');
 			}
 			return false;
@@ -492,7 +489,6 @@ function validate_csrf_get_token($token_name='csrftoken', $logout=true) {
 
 		if($_GET[$token_name] !== get_token_get_value($token_name)) {
 			if($logout) {
-				trigger_error('Validating the CSRF GET token failed, probable an outdated request.', E_USER_ERROR);
 				logout_user('csrf-get-failed', 'danger');
 			}
 			return false;

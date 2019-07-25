@@ -3,7 +3,7 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2018, Oliver Georgi
+ * @copyright Copyright (c) 2002-2019, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
  * @link http://www.phpwcms.org
  *
@@ -12,10 +12,10 @@
 
 $phpwcms    = array();
 $root       = rtrim(str_replace('\\', '/', realpath(dirname(__FILE__).'/../') ), '/').'/';
-require $root.'/include/config/conf.inc.php';
-require $root.'/include/inc_lib/default.inc.php';
-require $root.'/include/inc_lib/general.inc.php';
-require $root.'/include/inc_lib/imagick.convert.inc.php';
+require_once $root.'/include/config/conf.inc.php';
+require_once $root.'/include/inc_lib/default.inc.php';
+require_once PHPWCMS_ROOT.'/include/inc_lib/general.inc.php';
+require_once PHPWCMS_ROOT.'/include/inc_lib/imagick.convert.inc.php';
 
 // get segments: cmsimage.php/WIDTH[[[[xHEIGHT]xCROP]xQUALITY]xGS]/[[HASH|ID].EXT]
 // ...xGS will convert image to GrayScale
@@ -50,6 +50,10 @@ if(isset($data[1])) {
         $ext        = which_ext($data[1]);
         $value      = array();
         $svg        = 0;
+
+        if($ext === '' && isset($data[2])) {
+            $ext = which_ext($data[2]);
+        }
 
         if(substr($data[0], 0, 7) === 'convert') {
             // get image convert function but limit to max of 5 chars
@@ -87,8 +91,10 @@ if(isset($data[1])) {
                         headerRedirect(PHPWCMS_URL.PHPWCMS_IMAGES.$target_image, 301);
                     }
 
+                    $filename = empty($data[2]) ? '' : '; filename="'.rawurlencode($data[2]).'"';
+
                     header('Content-Type: ' . get_mimetype_by_extension($ext));
-                    header('Content-Disposition: inline');
+                    header('Content-Disposition: inline' . $filename);
                     @readfile(PHPWCMS_THUMB.$target_image);
                     exit;
 
@@ -126,7 +132,7 @@ if(isset($data[1])) {
 
             $sql   = 'SELECT f_hash, f_ext, f_svg, f_image_width, f_image_height, f_name FROM '.DB_PREPEND.'phpwcms_file WHERE ';
             $sql  .= 'f_id='.intval($hash)." AND ";
-            if(substr($phpwcms['image_library'], 0, 2) == 'gd') {
+            if(substr($phpwcms['image_library'], 0, 2) === 'gd') {
                 $sql .= "f_ext IN ('jpg','jpeg','png','gif','bmp', 'svg') AND ";
             }
             $sql  .= 'f_trash=0 AND f_aktiv=1 AND '.$file_public;
@@ -152,11 +158,11 @@ if(isset($data[1])) {
             @session_start();
             $file_public = empty($_SESSION["wcs_user_id"]) ? 'f_public=1' : '(f_public=1 OR f_uid='.intval($_SESSION["wcs_user_id"]).')';
 
-            require_once(PHPWCMS_ROOT.'/include/inc_lib/dbcon.inc.php');
+            require_once PHPWCMS_ROOT.'/include/inc_lib/dbcon.inc.php';
 
             $sql   = 'SELECT f_hash, f_ext, f_svg, f_image_width, f_image_height, f_name FROM '.DB_PREPEND.'phpwcms_file WHERE ';
             $sql  .= 'f_hash='._dbEscape($hash)." AND ";
-            if(substr($phpwcms['image_library'], 0, 2) == 'gd') {
+            if(substr($phpwcms['image_library'], 0, 2) === 'gd') {
                 $sql .= "f_ext IN ('jpg','jpeg','png','gif','bmp', 'svg') AND ";
             }
             $sql  .= 'f_trash=0 AND f_aktiv=1 AND '.$file_public;
@@ -176,7 +182,6 @@ if(isset($data[1])) {
                 $_h   = '';
                 $name = '';
             }
-
         }
 
         if(strlen($hash) === 32 && $ext) {
@@ -287,12 +292,12 @@ if(isset($data[1])) {
                 }
 
                 if(empty($name)) {
-                    $name = $value['image_name'];
+                    $name = empty($data[2]) ? $value['image_name'] : $data[2];
                 }
 
                 header('Content-Type: image/svg+xml');
                 header('Content-length: '.$svg_length);
-                header('Content-Disposition: inline; filename="'.$name.'"');
+                header('Content-Disposition: inline; filename="'.rawurlencode($name).'"');
 
                 echo $svg;
                 exit();
@@ -350,12 +355,12 @@ if(isset($data[1])) {
                 }
 
                 if(empty($name)) {
-                    $name = $image[0];
+                    $name = empty($data[2]) ? $image[0] : $data[2];
                 }
 
                 header('Content-Type: ' . $image['type']);
                 header('Content-length: '.filesize(PHPWCMS_THUMB.$image[0]));
-                header('Content-Disposition: inline; filename="'.$name.'"');
+                header('Content-Disposition: inline; filename="'.rawurlencode($name).'"');
                 @readfile(PHPWCMS_THUMB.$image[0]);
                 exit;
             }

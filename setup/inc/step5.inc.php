@@ -3,7 +3,7 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2018, Oliver Georgi
+ * @copyright Copyright (c) 2002-2019, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
  * @link http://www.phpwcms.org
  *
@@ -66,12 +66,15 @@ $phpwcms["root"] = !empty($phpwcms["root"]) ? "/".$phpwcms["root"] : "";
 
   $template_lang_path = trim($phpwcms["templates"], '/').'/template_lang';
   $status = check_path_status($phpwcms["root"]."/".$template_lang_path);
+  if($status != 2) {
+  	$status = set_chmod($phpwcms["root"]."/".$template_lang_path, 0777, $status);
+  }
 
   ?>
     <td align="right" class="v10">template&nbsp;languages:&nbsp;</td>
     <td<?php echo gib_bg_color($status) ?>>&nbsp;<strong style="color:#fff;"><?php echo html_specialchars($template_lang_path) ?></strong>&nbsp;</td>
     <td><img src="../img/leer.gif" alt="" width="1" height="19"></td>
-    <td><?php echo gib_status_text($status==1 ? 3 : $status) ?></td>
+    <td><?php echo gib_status_text($status) ?></td>
   </tr>
 
     <tr><td colspan="4" class="v10"><img src="../img/leer.gif" alt="" width="1" height="2"></td></tr>
@@ -219,7 +222,7 @@ $phpwcms["root"] = !empty($phpwcms["root"]) ? "/".$phpwcms["root"] : "";
 
 $this_root = dirname(dirname(dirname(__FILE__)));
 $config_setup = read_textfile($this_root.'/setup/setup.conf.inc.php');
-$config_setup = str_replace('?>', "\$NO_ACCESS = true;\n\n?>", $config_setup);
+$config_setup = str_replace('?>', "\$NO_ACCESS = true;\n\n", $config_setup);
 $result = false;
 if(!is_file($this_root.'/include/config/conf.inc.php')) {
 

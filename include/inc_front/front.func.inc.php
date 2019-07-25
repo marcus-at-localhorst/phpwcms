@@ -3,7 +3,7 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2018, Oliver Georgi
+ * @copyright Copyright (c) 2002-2019, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
  * @link http://www.phpwcms.org
  *
@@ -466,7 +466,7 @@ function get_struct_data($root_name='', $root_info='') {
     $data = array();
 
     $data[0] = array(
-        "acat_id"       => 0,
+        "acat_id"           => 0,
         "acat_name"         => $indexpage['acat_name'],
         "acat_info"         => $indexpage['acat_info'],
         "acat_struct"       => 0,
@@ -559,7 +559,6 @@ function get_actcat_articles_data($act_cat_id) {
     //so it is reusable by many functions -> lower db access
 
     global $content;
-    global $db;
 
     $data               = array();
     if(isset($content['struct'][ $act_cat_id ])) {
@@ -981,7 +980,7 @@ function list_articles_summary($alt=NULL, $topcount=99999, $template='') {
         // next page link
         if($GLOBALS['paginate_temp']['next'] && $page_current < $max_pages) {
             $_getVar['listpage'] = $page_next;
-            $page_next_link = '<a href="' . rel_url() . '">' . $GLOBALS['paginate_temp']['next'] . '</a>';
+            $page_next_link = '<a href="' . rel_url( array('listpage'=>$page_next) ) . '">' . $GLOBALS['paginate_temp']['next'] . '</a>';
         } else {
             $page_next_link = $GLOBALS['paginate_temp']['next'];
         }
@@ -989,7 +988,7 @@ function list_articles_summary($alt=NULL, $topcount=99999, $template='') {
         // previous page link
         if($GLOBALS['paginate_temp']['prev'] && $page_current > 1) {
             $_getVar['listpage'] = $page_prev;
-            $page_prev_link = '<a href="' . rel_url() . '">' . $GLOBALS['paginate_temp']['prev'] . '</a>';
+            $page_prev_link = '<a href="' . rel_url( array('listpage'=>$page_prev) ) . '">' . $GLOBALS['paginate_temp']['prev'] . '</a>';
         } else {
             $page_prev_link = $GLOBALS['paginate_temp']['prev'];
         }
@@ -1543,6 +1542,9 @@ function html_parser($string) {
 }
 
 function html_parse_idlink($matches) {
+    $matches[1] = explode(' ', $matches[1], 2);
+    $target = empty($matches[1][1]) ? '' : ' target="' . $matches[1][1] . '"';
+    $matches[1] = $matches[1][0];
     if(strpos($matches[1], '#') !== false) {
         list($matches[1], $anchor) = explode('#', $matches[1], 2);
         if($anchor) {
@@ -1558,7 +1560,7 @@ function html_parse_idlink($matches) {
     if(!empty($GLOBALS['template_default']['classes']['link-internal'])) {
         $replace .= ' class="'.$GLOBALS['template_default']['classes']['link-internal'].'"';
     }
-    $replace .= '>' . $matches[2] . '</a>';
+    $replace .= $target . '>' . $matches[2] . '</a>';
     return $replace;
 }
 
@@ -2010,7 +2012,7 @@ function get_new_articles(&$template_default, $max_cnt_links=0, $cat='', $dbcon=
     return $new_links;
 }
 
-function get_article_idlink($article_id=0, $link_text="", $db=null) {
+function get_article_idlink($article_id=0, $link_text="", $dbcon=null) {
     // returns the internal article link to given article ID/category
     $article_id     = intval($article_id);
     $article_cid    = 0;
@@ -3923,7 +3925,7 @@ function getArticleMenu($data=array()) {
                 }
                 if($item['img_src']) {
                     $item['img_src'] = 'x'.$data['articlemenu_options']['height'].'x'.$data['articlemenu_options']['crop'].'/'.$item['img_src'];
-                    $item['img_src'] = PHPWCMS_RESIZE_IMAGE . '/'.$data['articlemenu_options']['width'].$item['img_src'];
+                    $item['img_src'] = PHPWCMS_RESIZE_IMAGE . '/'.$data['articlemenu_options']['width'].$item['img_src'].'/'.rawurlencode($item['article_image']['name']);
                 }
             }
             if($data['articlemenu_options']['text']) {

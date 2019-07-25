@@ -3,7 +3,7 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2018, Oliver Georgi
+ * @copyright Copyright (c) 2002-2019, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
  * @link http://www.phpwcms.org
  *
@@ -945,6 +945,9 @@ $BL['be_cnt_field'] = array(
     'recaptchainv' => 'Unsichtbares reCAPTCHA',
 );
 
+$BL['be_cnt_optin'] = 'Double Opt-In';
+$BL['be_cnt_doubleoptin'] = 'aktiviere Double Opt-In gem&auml;&szlig; der <a href="https://de.wikipedia.org/wiki/Datenschutz-Grundverordnung" target="_blank">Datenschutzgrundverordnung</a> (DSGVO)';
+
 $BL['be_cnt_access'] = 'Zugriff';
 $BL['be_cnt_activated'] = 'aktiviert';
 $BL['be_cnt_available'] = 'verf&uuml;gbar';
@@ -1011,7 +1014,7 @@ $BL['be_cnt_transparent'] = 'Flash transparent';
 
 // added: 02-04-2006
 $BL['be_admin_struct_orderkilldate'] = 'Enddatum';
-$BL['be_func_switch_contentpart'] = 'Soll der Content Part wirklich ge&auml;ndert werden? \n\nBitte sind Sie au&szlig;erst vorsichtig damit! \nWichtige Einstellungen k&ouml;nnten &uuml;berschrieben werden! \n';
+$BL['be_func_switch_contentpart'] = 'Soll der Content Part wirklich ge&auml;ndert werden? \n\nBitte sind Sie &auml;u&szlig;erst vorsichtig damit! \nWichtige Einstellungen k&ouml;nnten &uuml;berschrieben werden! \n';
 $BL["phpwcms_code_snippets_dir_exists"] = '<strong>ACHTUNG!</strong> Das &quot;CODE-SNIPPETS&quot; Verzeichnis ist noch immer vorhanden! L&ouml;schen Sie das Verzeichnis <strong>&quot;phpwcms_code_snippets&quot;</strong>, sonst haben Sie ein potentielles Sicherheitproblem.';
 
 $BL['be_ctype_poll'] = 'Poll';
@@ -1028,7 +1031,7 @@ $BL['be_admin_struct_acat_hiddenactive'] = 'sichtbar, wenn aktiv';
 $BL['be_login_jsinfo'] = 'JavaScript wird im Backend ben&ouml;tigt!';
 
 $BL['be_admin_struct_maxlist'] = 'max. Artikel im Listenmodus';
-$BL['be_admin_optgroup_label'] = [1 => 'Text', 2 => 'Bild', 3 => 'Formular', 4 => 'Admin', 5 => 'Spezial'];
+$BL['be_admin_optgroup_label'] = array(1 => 'Text', 2 => 'Bild', 3 => 'Formular', 4 => 'Admin', 5 => 'Spezial');
 $BL['be_cnt_articlemenu_maxchar'] = 'max. Zeichen';
 
 $BL['be_cnt_sysadmin_system'] = 'System';
@@ -1405,6 +1408,7 @@ $BL['be_attr_alt'] = 'Alternativer Text';
 $BL['be_ie8ignore'] = '<a href="https://de.wikipedia.org/wiki/Conditional_Comments" target="_blank" class="underline">Conditional Comments</a> f&uuml;r IE8 deaktivieren';
 $BL['be_cookie_consent_enable'] = 'Cookie Consent Plugin aktivieren';
 $BL['be_cookie_consent_message'] = 'Zustimmungstext';
+$BL['be_cookie_consent_translatable'] = 'Diese Installation unterst&uuml;tzt mehrere Sprachen (&#36;phpwcms[&#39;allowed_lang&#39;]). Mittels <b>@@Text@@</b> Syntax k&ouml;nnen Cookie Consent Texte &uuml;bersetzt werden. Nach dem Rendern `template/template_lang` pr&uuml;fen.';
 $BL['cookie_consent_message'] = 'Diese Website benutzt Cookies, um eine umfassende Darstellung sowie die Funktionalit&auml;t der Webseite sicherzustellen';
 $BL['be_cookie_consent_dismiss'] = 'Best&auml;tigungs-Button';
 $BL['cookie_consent_dismiss'] = 'Verstanden!';
@@ -1469,3 +1473,5 @@ $BL['be_extensions_copyright'] = 'Erweiterungen sind urheberrechtlich gesch&uuml
 
 $BL['be_password_show'] = 'Passwort anzeigen';
 $BL['be_password_hide'] = 'Password verstecken';
+
+$BL['be_admin_template_choose_file'] = 'Textvorlage, alternativ Dateivorlage ausw&auml;hlen';

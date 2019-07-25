@@ -3,7 +3,7 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2018, Oliver Georgi
+ * @copyright Copyright (c) 2002-2019, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
  * @link http://www.phpwcms.org
  *
@@ -60,8 +60,8 @@ td.chatlist {
     <td colspan="3"><img src="../img/leer.gif" alt="" width="1" height="7" /></td>
   </tr>
   <tr bgcolor="#FFFFFF">
-    <td valign="top" style="background: url(../img/backend/backend_r3_c4.jpg) repeat-x;"><img src="../img/backend/backend_r3_c1.jpg" alt="" width="15" height="40" /></td>
-    <td valign="top" style="background: url(../img/backend/backend_r3_c4.jpg) repeat-x;"><table width="740" border="0" cellpadding="0" cellspacing="0" summary="">
+    <td valign="top" style="background: url(../img/backend/backend_r3_c4.gif) repeat-x;"><img src="../img/backend/backend_r3_c1.jpg" alt="" width="15" height="40" /></td>
+    <td valign="top" style="background: url(../img/backend/backend_r3_c4.gif) repeat-x;"><table width="740" border="0" cellpadding="0" cellspacing="0" summary="">
         <tr>
           <td colspan="2"><img src="../img/leer.gif" alt="" width="1" height="9" /></td>
         </tr>
@@ -71,7 +71,7 @@ td.chatlist {
             <a href="setup.php">SETUP</a> | <a href="index.php" target="_top">LICENCE</a> | <a href="<?php echo PHPWCMS_URL.get_login_file() ?>" target="_top">LOGIN</a></td>
         </tr>
     </table></td>
-    <td valign="top" style="background: url(../img/backend/backend_r3_c4.jpg) repeat-x;"><img src="../img/backend/backend_r3_c7.jpg" alt="" width="15" height="40" /></td>
+    <td valign="top" style="background: url(../img/backend/backend_r3_c4.gif) repeat-x;"><img src="../img/backend/backend_r3_c7.jpg" alt="" width="15" height="40" /></td>
   </tr>
   <tr bgcolor="#FFFFFF">
     <td width="15" bgcolor="#FFFFFF" style="background: url(../img/backend/preinfo2_r7_c2.gif) repeat-y;"><img src="../img/leer.gif" alt="" width="15" height="1" /></td>
@@ -198,13 +198,8 @@ if(isset($_POST['sqlfile']) && isset($_GET["do"]) && $_GET["do"] == "upgrade") {
 if($do) {
 
 	_dbQuery('SET storage_engine=MYISAM', 'SET');
-
-	if($phpwcms['db_version'] > 40100) {
-		$value = "SET SQL_MODE='NO_AUTO_VALUE_ON_ZERO'";
-		_dbQuery($value, 'SET');
-		$value = "SET NAMES '".$phpwcms['db_charset']."'".(empty($phpwcms['db_collation']) ? '' : " COLLATE '".$phpwcms['db_collation']."'");
-		_dbQuery($value, 'SET');
-	}
+    _dbQuery("SET SQL_MODE='NO_AUTO_VALUE_ON_ZERO'", 'SET');
+    _dbQuery("SET NAMES '".$phpwcms['db_charset']."'".(empty($phpwcms['db_collation']) ? '' : " COLLATE '".$phpwcms['db_collation']."'"), 'SET');
 
 	$sql_data = read_textfile("update_sql/".$file);
 	$sql_data = preg_replace("/#.*.\n/", "", $sql_data );
@@ -221,11 +216,11 @@ if($do) {
 			unset($sql[$key]);
 		} else {
 
-			if($phpwcms['db_version'] > 40100 && $phpwcms['db_charset']=='utf8') {
+			if($phpwcms['db_charset'] === 'utf8') {
 				$value = utf8_encode($value);
 			}
 
-			if(!@mysqli_query($GLOBALS['db'], $value)) {
+			if(!mysqli_query($GLOBALS['db'], $value)) {
     			echo '<span class="error">ERROR: '.html_entities(_dbError())." -&gt; </span>";
             }
 			echo html_specialchars($value).";\n";
@@ -243,7 +238,7 @@ if($do) {
 
 <?php
 
-if(empty($phpwcms['db_charset']) || empty($phpwcms['db_collation']) || empty($phpwcms['db_version'])) {
+if(empty($phpwcms['db_charset']) || empty($phpwcms['db_collation']))) {
 
 ?>
   <tr bgcolor="#FFFFFF">
@@ -252,7 +247,6 @@ if(empty($phpwcms['db_charset']) || empty($phpwcms['db_collation']) || empty($ph
 		<strong>Before you continue proof the following config settings:</strong><br />
 		$phpwcms['db_charset']<br />
 		$phpwcms['db_collation']<br />
-		$phpwcms['db_version']<br />
 		If you are not sure how to handle this <br />
 		try to start setup process! <br />
 		<strong>But STOP SETUP BEFORE SQL IMPORT!!!</strong> </td>

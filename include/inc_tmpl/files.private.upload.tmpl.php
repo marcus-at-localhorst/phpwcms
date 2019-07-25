@@ -3,7 +3,7 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2018, Oliver Georgi
+ * @copyright Copyright (c) 2002-2019, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
  * @link http://www.phpwcms.org
  *
@@ -312,13 +312,13 @@ document.getElementById("file").onchange = function(e) {
                 if(typeof iptctags[a] === "string") {
                     var val = iptctags[a].trim();
                     if(val !== "") {
-                        iptctable += "<tr><td class=\"chatlist tdtop3\" width=\"5%\">" + a + "&nbsp;</td><td class=\"tdtop3\">" + val + "</td></tr>";
+                        iptctable += \'<tr><td class="chatlist tdtop3" width="5%">\' + a + \'&nbsp;</td><td class="tdtop3">\' + val + \'</td></tr>\';
                     }
                 }
             }
-    }
+        }
         if(iptctable !== "") {
-            iptctable = "<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" style=\"width:95%;border-top:1px solid #9BBECA;margin:3px 5px 0 0;\">" + iptctable + "</table>";
+            iptctable = \'<table cellspacing="0" cellpadding="0" border="0" style="width:95%;border-top:1px solid #9BBECA;margin:3px 5px 0 0;">\' + iptctable + \'</table>\';
         }
         iptcdata.innerHTML = iptctable;
     });

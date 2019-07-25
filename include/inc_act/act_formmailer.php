@@ -3,7 +3,7 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2018, Oliver Georgi
+ * @copyright Copyright (c) 2002-2019, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
  * @link http://www.phpwcms.org
  *
@@ -43,7 +43,9 @@ if(!checkFormTrackingValue()) {
 	echo '<html><head><title>phpwcms Formmailer</title></head>';
 	echo '<body><pre>';
 	echo 'You are not allowed to send form!'.LF;
-	echo 'Your IP: '.getRemoteIP().LF;
+	if(!PHPWCMS_GDPR_MODE) {
+        echo 'Your IP: ' . getRemoteIP() . LF;
+    }
 	echo 'HTTP-REFERER: '.(empty($ref) ? 'unknown' : $ref);
 	echo '</pre></body></html>';
 	exit();
@@ -258,7 +260,7 @@ if(isset($form_error)) {
 	$body = $translate[$lang]["bodyLine1"]."\n";
 	$body.= $translate[$lang]["bodyLine2"]."\n";
 	$body.= $_SERVER['HTTP_REFERER']." \n";
-	$body.= "IP: ".getRemoteIP()." \n\n";
+	$body .= PHPWCMS_GDPR_MODE ?  : "IP: " . getRemoteIP() . " \n\n";
 	$body.= "====================================================================\n\n";
 	$body.= $translate[$lang]["bodyRecipient"];
 	if($recipient_name) {

@@ -4,7 +4,7 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2018, Oliver Georgi
+ * @copyright Copyright (c) 2002-2019, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
  * @link http://www.phpwcms.org
  *
@@ -35,6 +35,7 @@ function renderAds($match) {
 	$sql .= '(ac.adcampaign_maxclick=0 OR (ac.adcampaign_maxclick > 0 AND ac.adcampaign_maxclick >= ac.adcampaign_curclick))';
 
 	$ads  = _dbQuery($sql);
+    $ad = array();
 
 	if(is_array($ads) && count($ads) ) {
 
@@ -80,8 +81,8 @@ function renderAds($match) {
 	}
 
 	$ad['adcampaign_data']	= @unserialize($ad['adcampaign_data']);
-	$ad['dir']				= PHPWCMS_CONTENT.'ads/'.$ad['adcampaign_id'];
-	$ad['content_dir']		= CONTENT_PATH.'ads/'.$ad['adcampaign_id'].'/';
+	$ad['dir']				= PHPWCMS_CONTENT.PHPWCMS_ADS_DIR.'/'.$ad['adcampaign_id'];
+	$ad['content_dir']		= CONTENT_PATH.PHPWCMS_ADS_DIR.'/'.$ad['adcampaign_id'].'/';
 	if($ad['adcampaign_type']!=2 && $ad['adcampaign_type']!=4 && !is_dir($ad['dir'])) {
 		return '';
 	}

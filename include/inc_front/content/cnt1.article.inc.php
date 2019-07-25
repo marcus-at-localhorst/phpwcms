@@ -3,7 +3,7 @@
  * phpwcms content management system
  *
  * @author Oliver Georgi <og@phpwcms.org>
- * @copyright Copyright (c) 2002-2018, Oliver Georgi
+ * @copyright Copyright (c) 2002-2019, Oliver Georgi
  * @license http://opensource.org/licenses/GPL-2.0 GNU GPL-2
  * @link http://www.phpwcms.org
  *
@@ -265,7 +265,7 @@ if($crow['is_imagetext']) {
         $crow["acontent_template"] = str_replace('{IMAGE_NAME}', html($image[1]), $crow["acontent_template"]);
 
         $crow['image_tag']  = '<img src="' . PHPWCMS_RESIZE_IMAGE . '/' . $crow["settings"]['width'].'x'.$crow["settings"]['height'].'x'.$crow["settings"]['crop'] . '/';
-        $crow['image_tag'] .= $image[2].'.'.$image[3].'" alt="';
+        $crow['image_tag'] .= $image[2].'.'.$image[3].'/'.rawurlencode($image[1]).'" alt="';
 
         $caption = getImageCaption(array('caption' => base64_decode($image[6]), 'file' => $image[0]));
         $caption[1] = html(empty($caption[1]) ? $image[1] : $caption[1]);
